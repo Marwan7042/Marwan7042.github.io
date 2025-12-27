@@ -3,226 +3,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marwan Mahmoud | Computer Engineering & AI</title>
+    <title>Marwan Mahmoud | AI Engineer</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --header-bg: #0f172a;
-            --border: #e2e8f0;
+            --bg-color: #030712;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        [data-theme="dark"] {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --header-bg: #020617;
-            --border: #334155;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
-        body { 
-            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-            line-height: 1.6; 
-            color: var(--text); 
-            background: var(--bg); 
-            margin: 0; 
-            transition: background 0.3s ease, color 0.3s ease;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        header { 
-            background: var(--header-bg); 
-            color: white; 
-            padding: 4rem 1rem; 
-            text-align: center; 
+        /* --- Canvas Background --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* --- Layout & Typography --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
             position: relative;
+            z-index: 1;
         }
 
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--primary);
+        h1, h2, h3 {
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            backdrop-filter: blur(5px);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
             color: white;
-            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        /* --- Glass Cards --- */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        /* --- Experience Timeline --- */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .timeline-company {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .timeline-desc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .timeline-desc li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .timeline-desc li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* --- Skills Grid --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
             padding: 8px 16px;
             border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .tag:hover {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.1);
+            color: white;
+        }
+
+        /* --- Projects --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .folder-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .project-links a {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-left: 10px;
+        }
+
+        .project-links a:hover {
+            color: white;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
-            transition: transform 0.2s;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .theme-toggle:hover { transform: scale(1.05); }
-
-        .container { max-width: 850px; margin: 2rem auto; padding: 0 1rem; }
-        
-        section { 
-            background: var(--card-bg); 
-            padding: 2rem; 
-            border-radius: 12px; 
-            margin-bottom: 2rem; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .timeline { padding-left: 20px; }
+            .timeline-dot { left: -26px; }
         }
-
-        section.visible { opacity: 1; transform: translateY(0); }
-
-        h2 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 0; }
-        h3 { margin-bottom: 5px; color: var(--text); }
         
-        .contact-info a { color: #60a5fa; text-decoration: none; margin: 0 10px; font-weight: 500; }
-        
-        .tag { 
-            display: inline-block; 
-            background: #e2e8f0; 
-            color: #475569;
-            padding: 4px 12px; 
-            border-radius: 15px; 
-            font-size: 0.8rem; 
-            margin: 4px; 
-            font-weight: 600;
+        section {
+            padding: 80px 0;
         }
-        [data-theme="dark"] .tag { background: #334155; color: #cbd5e1; }
-
-        .item-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
-        .date { color: var(--text-light); font-size: 0.9rem; }
-        
-        .project-card { border-left: 4px solid var(--primary); padding-left: 1.5rem; margin: 1.5rem 0; }
-        .project-link { color: var(--primary); font-weight: bold; text-decoration: none; font-size: 0.9rem; }
-        
-        ul { padding-left: 1.2rem; }
-        li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
-<header>
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 Switch Theme</button>
-    <h1>Marwan Mahmoud Mohamed</h1>
-    <p style="font-size: 1.2rem; opacity: 0.9;">Computer Engineering Student | AI & Computer Vision</p>
-    <div class="contact-info">
-        <a href="mailto:marawanm386@gmail.com">Email</a>
-        <a href="https://linkedin.com/in/MarwanMahmoud">LinkedIn</a>
-        <a href="https://github.com/Marwan7042">GitHub</a>
+    <!-- Neural Network Background -->
+    <canvas id="canvas-container"></canvas>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">&lt;Marwan/&gt;</div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#certifications">Certifications</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <p class="highlight">Hi, my name is</p>
+            <h1>Marwan Mahmoud.</h1>
+            <div class="hero-subtitle">I build <span id="typing-text"></span></div>
+            <p style="max-width: 600px; color: var(--text-secondary); margin-bottom: 30px;">
+                Computer Engineering Undergraduate specializing in Artificial Intelligence, Deep Learning, and Computer Vision. 
+                I turn data into decisions and code into autonomy.
+            </p>
+            <div class="social-buttons">
+                <a href="mailto:marawanm386@gmail.com" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Contact Me
+                </a>
+                <a href="https://github.com/Marwan7042" target="_blank" class="btn">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://linkedin.com/in/MarwanMahmoud" target="_blank" class="btn">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications">
+            <h2><span class="highlight">04.</span> Certifications</h2>
+            <div class="projects-grid">
+                
+                <!-- Cert 1 -->
+                <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-certificate folder-icon"></i>
+                        <div class="project-links">
+                            <span class="highlight" style="font-size: 0.85rem;">Feb 2025 - Mar 2025</span>
+                        </div>
+                    </div>
+                    <div class="project-title">Harvard CS50x: Computer Science</div>
+                    <div class="project-desc">
+                        Mastered low-level concepts in C (memory management, pointers, tries) and algorithmic complexity. Completed rigorous problem sets in C, Python, and SQL.
+                    </div>
+                    <div class="project-tech">
+                        <span>C Language</span>
+                        <span>Algorithms</span>
+                        <span>SQL</span>
+                    </div>
+                </div>
+
+                <!-- Cert 2 -->
+                <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-certificate folder-icon"></i>
+                        <div class="project-links">
+                            <span class="highlight" style="font-size: 0.85rem;">Jul 2025 - Aug 2025</span>
+                        </div>
+                    </div>
+                    <div class="project-title">Harvard CS50P: Python Programming</div>
+                    <div class="project-desc">
+                        Advanced Python certification focusing on Object-Oriented Programming (OOP), unit testing, and API integration.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>OOP</span>
+                        <span>APIs</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" style="text-align: center; padding: 50px 0; color: var(--text-secondary); font-size: 0.9rem;">
+            <p>Designed & Built by Marwan Mahmoud</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-envelope"></i> marawanm386@gmail.com | 
+                <i class="fas fa-phone"></i> +20 111 6327 042
+            </p>
+        </footer>
     </div>
-</header>
 
-<div class="container">
-    <section>
-        <h2>Summary</h2>
-        [cite_start]<p>Undergraduate Computer Engineering student with a strong foundation in Computer Science[cite: 1, 4]. [cite_start]Specializing in Artificial Intelligence, with a focus on Machine Learning, Deep Learning, and Computer Vision[cite: 5].</p>
-    </section>
+    <script>
+        // --- Typing Effect ---
+        const textElement = document.getElementById('typing-text');
+        const phrases = ['AI Solutions.', 'Computer Vision Systems.', 'Robust Code.', 'Future Tech.'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
 
-    <section>
-        <h2>Education</h2>
-        <div class="item-header">
-            <h3>B.S. in Computer Engineering</h3>
-            <span class="date">Expected June 2028</span>
-        </div>
-        [cite_start]<p>Arab Academy for Science, Technology & Maritime Transport[cite: 7, 8].<br>
-        [cite_start]<strong>GPA: 3.65/4.0</strong> [cite: 9]</p>
-    </section>
-
-    <section>
-        <h2>Technical Skills</h2>
-        [cite_start]<p><strong>Programming:</strong> <span class="tag">Python</span> <span class="tag">SQL</span> <span class="tag">C/C++</span> [cite: 11]</p>
-        [cite_start]<p><strong>Libraries/AI:</strong> <span class="tag">NumPy</span> <span class="tag">Pandas</span> <span class="tag">Matplotlib</span> <span class="tag">YOLO</span> <span class="tag">OpenCV</span> <span class="tag">SpectacularAI</span> <span class="tag">Open3D</span> [cite: 12]</p>
-        [cite_start]<p><strong>Tools & Concepts:</strong> <span class="tag">Git/GitHub</span> <span class="tag">ROS 2</span> <span class="tag">SQLite</span> <span class="tag">Data Structures</span> <span class="tag">OOP</span> [cite: 13, 14]</p>
-    </section>
-
-    <section>
-        <h2>Experience</h2>
-        <div class="project-card">
-            <div class="item-header">
-                <h3>Software Team Member - Computer Vision</h3>
-                <span class="date">Sep 2025</span>
-            </div>
-            <p><strong>Triton ROVs | MATE ROV | [cite_start]AASTMT</strong> [cite: 16, 17]</p>
-            <ul>
-                [cite_start]<li>Developing a real-time object detection node using YOLO and a Raspberry Pi Camera, integrated into the ROS 2 ecosystem[cite: 18].</li>
-                [cite_start]<li>Generating 3D reconstructions by deploying Spectacular AI on an OAK-D camera, utilizing Open3D to process point clouds[cite: 19].</li>
-                [cite_start]<li>Collaborating on system architecture using Git and ROS 2[cite: 20].</li>
-            </ul>
-        </div>
-
-        <div class="project-card">
-            <div class="item-header">
-                <h3>Internship Trainee - Data Analysis</h3>
-                <span class="date">Aug 2025 – Sep 2025</span>
-            </div>
-            [cite_start]<p><strong>Amreya Petroleum Refining Company (APRC)</strong> [cite: 21, 22]</p>
-            <ul>
-                [cite_start]<li>Extracted production data via SQL queries and performed data cleaning using Pandas[cite: 23].</li>
-                [cite_start]<li>Generated visualization reports and analyzed efficiency metrics using Matplotlib[cite: 24].</li>
-            </ul>
-        </div>
-    </section>
-
-    <section>
-        <h2>Projects</h2>
-        <div class="project-card">
-            <h3>Unbeatable Tic-Tac-Toe AI</h3>
-            [cite_start]<p>Engineered an AI agent using the Minimax algorithm for perfect gameplay[cite: 26, 27].</p>
-            <a class="project-link" href="https://github.com/Marwan7042/Tic-Tac-Toe">View on GitHub →</a>
-        </div>
-        <div class="project-card">
-            <h3>NLP Calculator</h3>
-            [cite_start]<p>Developed a natural language parser to evaluate complex mathematical expressions[cite: 30, 31].</p>
-            <a class="project-link" href="https://github.com/Marwan7042/Natural-Language-Calculator">View on GitHub →</a>
-        </div>
-        <div class="project-card">
-            <h3>Sorting Algorithm Visualizer</h3>
-            [cite_start]<p>Built a real-time C visualizer for Bubble, Selection, and Merge Sort using ANSI escape codes[cite: 34, 35, 36].</p>
-            <a class="project-link" href="https://github.com/Marwan7042/sortingVisuals">View on GitHub →</a>
-        </div>
-        <div class="project-card">
-            <h3>Speller</h3>
-            [cite_start]<p>Implemented a spell checker in C using hash tables, achieving O(1) average lookup[cite: 38, 39].</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>Courses & Extracurriculars</h2>
-        <ul>
-            [cite_start]<li><strong>Harvard CS50x:</strong> Introduction to Computer Science[cite: 44].</li>
-            [cite_start]<li><strong>Harvard CS50P:</strong> Introduction to Programming with Python[cite: 47].</li>
-            [cite_start]<li><strong>AI/ML Volunteer:</strong> GDG on Campus AAST (Nov 2025)[cite: 41].</li>
-        </ul>
-        [cite_start]<p><strong>Languages:</strong> English (Advanced C1), Arabic (Native)[cite: 49, 50].</p>
-    </section>
-</div>
-
-<script>
-    function toggleTheme() {
-        const body = document.body;
-        const currentTheme = body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        body.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    }
-
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
             }
-        });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
-    });
-</script>
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, 2000); // Pause at end of phrase
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500); // Pause before next phrase
+            } else {
+                setTimeout(type, isDeleting ? 100 : 100);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', type);
 
+
+        // --- Canvas Particle Animation ---
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.min(window.innerWidth / 10, 100); // Responsive count
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                // Draw connections
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 - distance/1000})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+    </script>
 </body>
 </html>
