@@ -1,22 +1,17 @@
-<!-- Chosen Palette: Warm Professional (Stone/Amber/Slate) for a clean, academic feel. -->
+<!-- Chosen Palette: Academic Professional (Stone/Amber/Slate) for a textbook feel. -->
 <!-- Application Structure Plan: 
-    1. Header: Course context and specific assignment objectives (EEC2220).
-    2. Theory & Context: Brief intro to the signal processing chain (Read -> Filter -> Modulate -> Demodulate).
-    3. The Lab Workbench (Main Interactive Section):
-        - A 'Configuration Panel' mimicking the GUI requirement from the report. Users select channel order and toggle filters.
-        - A 'Live Oscilloscope' Dashboard: Three vertically stacked charts corresponding to the report's required deliverables:
-            a. Input Signals (Baseband)
-            b. Composite Spectrum (FDM visualization at 20k, 40k, 60k, 80k)
-            c. Demodulated Output (Recovered)
-    4. Deep Dive Analysis: Accordion-style details about Normalization, Aliasing, and Coherent Detection (drawn from the generated tutorial content).
-    This structure prioritizes the "Order" interaction which is central to the assignment.
+    1. Header: Academic branding for the course.
+    2. Chapter 1: Foundations - Explaining Signal Representation and Normalization.
+    3. Chapter 2: The Transmitter - Discussing Filtering, Modulation, and the Multiplexing (FDM) process.
+    4. The Interactive Workbench: The core simulator where students apply the theory.
+    5. Chapter 3: The Receiver - Detailed breakdown of Coherent Detection and the Recovery Filter.
+    6. Summary & Glossary: A quick-reference table for lab report writing.
+    This structure transforms the SPA from a simple dashboard into a guided educational journey.
 -->
 <!-- Visualization & Content Choices:
-    - Goal: Inform about signals -> Viz: Static 'Signal Cards' showing simulated metadata (File 1 L/R, File 2 L/R).
-    - Goal: Change/Experiment -> Interaction: Dropdowns to reorder channels. Checkbox to toggle Low Pass Filter.
-    - Goal: Visualize Outcome -> Viz: Chart.js Line Charts simulating Power Spectral Density (PSD).
-      - Justification: The report specifically asks for "Frequency-domain representations". Chart.js is perfect for simulating spectral peaks.
-      - Implementation: Synthetic data generation (Gaussian/Triangle curves) to represent audio bandwidths.
+    - Goal: Teach Signal Theory -> Presentation: Side-by-side "Concept" and "Implementation" blocks.
+    - Goal: Visualize FDM -> Viz: Chart.js Line Charts (PSD simulation).
+    - Goal: Explain Math -> Presentation: Styled code blocks and mathematical notation using Unicode/HTML.
 -->
 <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
@@ -25,370 +20,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEC2220: FDM Lab Simulator</title>
+    <title>EEC2220: FDM Lab - Interactive Textbook</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Custom Chart Container Styling to meet strict constraints */
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        .textbook-serif { font-family: 'Libre Baskerville', serif; }
+        
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 800px; /* Constrain width on large screens */
+            max-width: 850px;
             margin-left: auto;
             margin-right: auto;
-            height: 300px; /* Base height */
-            max-height: 400px;
+            height: 320px;
+            max-height: 450px;
         }
+
+        .theory-block {
+            @apply bg-white border-l-4 border-amber-600 p-6 rounded-r-lg shadow-sm;
+        }
+
+        .code-block {
+            @apply bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-xs overflow-x-auto border-t-2 border-slate-700;
+        }
+        
+        .math-expr {
+            @apply font-serif italic text-lg text-slate-900;
+        }
+
         @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+            .chart-container { height: 380px; }
         }
     </style>
 </head>
-<body class="bg-stone-50 text-slate-800 font-sans leading-relaxed">
+<body class="bg-stone-50 text-slate-800 leading-relaxed pb-20">
 
     <!-- Header Section -->
     <header class="bg-white border-b border-stone-200 shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-amber-700 tracking-tight">EEC2220 Communication Lab</h1>
-                <p class="text-sm text-slate-500">Filtering, Modulating, & Demodulating Stereo Signals</p>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight textbook-serif italic">EEC2220 Communication Systems</h1>
+                <p class="text-sm text-amber-700 font-semibold uppercase tracking-widest">Interactive Lab Companion</p>
             </div>
-            <div class="mt-2 md:mt-0 text-xs font-mono bg-stone-100 px-3 py-1 rounded text-stone-500">
-                Dr. Nour Elmadany | TA: Eng. Seif Korayem
+            <div class="mt-2 md:mt-0 text-xs text-stone-500 text-right">
+                <p>Digital Signal Processing & Modulation</p>
+                <p>Lecturer: Dr. Nour Elmadany</p>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto px-4 py-8 space-y-12">
+    <main class="max-w-4xl mx-auto px-6 py-12 space-y-16">
 
-        <!-- Intro Section: Contextualizing the Lab -->
-        <section class="bg-white rounded-xl shadow-sm p-6 md:p-8 border-l-4 border-amber-500">
-            <h2 class="text-xl font-semibold text-slate-900 mb-3">Assignment Overview</h2>
-            <p class="text-slate-600 mb-4">
-                This interactive tool simulates the core objectives of your lab assignment. In a real Python environment, you would process two stereo .wav files (4 channels total). Here, we simulate the spectral behavior of these signals to help you visualize how <strong>Frequency Division Multiplexing (FDM)</strong> works.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-                <div class="bg-stone-50 p-4 rounded-lg text-center">
-                    <div class="text-2xl mb-2">📥</div>
-                    <h3 class="font-bold text-slate-700">1. Input</h3>
-                    <p class="text-xs text-slate-500">Read 2 Stereo Files (4 Channels)</p>
-                </div>
-                <div class="bg-stone-50 p-4 rounded-lg text-center">
-                    <div class="text-2xl mb-2">📉</div>
-                    <h3 class="font-bold text-slate-700">2. Filter</h3>
-                    <p class="text-xs text-slate-500">Low-Pass Filter (Anti-Aliasing)</p>
-                </div>
-                <div class="bg-stone-50 p-4 rounded-lg text-center">
-                    <div class="text-2xl mb-2">📡</div>
-                    <h3 class="font-bold text-slate-700">3. Modulate</h3>
-                    <p class="text-xs text-slate-500">Shift to 20k, 40k, 60k, 80k Hz</p>
-                </div>
-                <div class="bg-stone-50 p-4 rounded-lg text-center">
-                    <div class="text-2xl mb-2">📤</div>
-                    <h3 class="font-bold text-slate-700">4. Demodulate</h3>
-                    <p class="text-xs text-slate-500">Recover Original Signals</p>
-                </div>
+        <!-- Chapter 1 -->
+        <section id="chapter1" class="space-y-6">
+            <div class="border-b-2 border-stone-200 pb-4">
+                <span class="text-amber-600 font-bold uppercase text-xs tracking-widest">Chapter 1</span>
+                <h2 class="text-3xl font-bold textbook-serif">Signal Foundations</h2>
             </div>
-        </section>
-
-        <!-- The Lab Workbench: Interactive Control & Visualization -->
-        <section id="workbench">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">Signal Workbench</h2>
-                    <p class="text-slate-500 text-sm">Configure the multiplexer order and observe the spectrum changes.</p>
-                </div>
-            </div>
-
-            <!-- Control Panel -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 ring-1 ring-slate-900/5">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    
-                    <!-- Channel Ordering Controls -->
-                    <div class="md:col-span-2">
-                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Carrier Frequency Allocation (User Order)</h3>
-                        <p class="text-xs text-slate-500 mb-4">Assign each audio channel to a specific carrier frequency slot.</p>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            <!-- Slot 1 -->
-                            <div class="bg-stone-50 p-3 rounded border border-stone-200">
-                                <label class="block text-xs font-semibold text-amber-700 mb-1">20 kHz Carrier</label>
-                                <select id="slot1" class="w-full bg-white border border-stone-300 text-sm rounded p-1" onchange="updateSimulation()">
-                                    <option value="0">Channel 1 (File 1 L)</option>
-                                    <option value="1">Channel 2 (File 1 R)</option>
-                                    <option value="2">Channel 3 (File 2 L)</option>
-                                    <option value="3">Channel 4 (File 2 R)</option>
-                                </select>
-                            </div>
-                            <!-- Slot 2 -->
-                            <div class="bg-stone-50 p-3 rounded border border-stone-200">
-                                <label class="block text-xs font-semibold text-amber-700 mb-1">40 kHz Carrier</label>
-                                <select id="slot2" class="w-full bg-white border border-stone-300 text-sm rounded p-1" onchange="updateSimulation()">
-                                    <option value="0">Channel 1 (File 1 L)</option>
-                                    <option value="1">Channel 2 (File 1 R)</option>
-                                    <option value="2" selected>Channel 3 (File 2 L)</option>
-                                    <option value="3">Channel 4 (File 2 R)</option>
-                                </select>
-                            </div>
-                            <!-- Slot 3 -->
-                            <div class="bg-stone-50 p-3 rounded border border-stone-200">
-                                <label class="block text-xs font-semibold text-amber-700 mb-1">60 kHz Carrier</label>
-                                <select id="slot3" class="w-full bg-white border border-stone-300 text-sm rounded p-1" onchange="updateSimulation()">
-                                    <option value="0">Channel 1 (File 1 L)</option>
-                                    <option value="1">Channel 2 (File 1 R)</option>
-                                    <option value="2">Channel 3 (File 2 L)</option>
-                                    <option value="3" selected>Channel 4 (File 2 R)</option>
-                                </select>
-                            </div>
-                            <!-- Slot 4 -->
-                            <div class="bg-stone-50 p-3 rounded border border-stone-200">
-                                <label class="block text-xs font-semibold text-amber-700 mb-1">80 kHz Carrier</label>
-                                <select id="slot4" class="w-full bg-white border border-stone-300 text-sm rounded p-1" onchange="updateSimulation()">
-                                    <option value="0">Channel 1 (File 1 L)</option>
-                                    <option value="1" selected>Channel 2 (File 1 R)</option>
-                                    <option value="2">Channel 3 (File 2 L)</option>
-                                    <option value="3">Channel 4 (File 2 R)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filter & Legend Controls -->
-                    <div class="bg-amber-50 rounded p-4 border border-amber-100">
-                        <h3 class="text-sm font-bold text-amber-800 uppercase tracking-wider mb-4">Signal Processing</h3>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-amber-900">Anti-Aliasing Filter (LPF)</span>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="filterToggle" class="sr-only peer" checked onchange="updateSimulation()">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
-                            </label>
-                        </div>
-                        <p class="text-xs text-amber-700 mb-4">
-                            Toggling the filter changes the bandwidth of the input signals. Observe the overlap in the composite graph when disabled.
-                        </p>
-
-                        <div class="space-y-2 text-xs">
-                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-500 mr-2"></span> Channel 1 (File 1 L)</div>
-                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span> Channel 2 (File 1 R)</div>
-                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-500 mr-2"></span> Channel 3 (File 2 L)</div>
-                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-orange-500 mr-2"></span> Channel 4 (File 2 R)</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Visualizations -->
-            <div class="space-y-8">
-                
-                <!-- Chart 1: Input Spectrum -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-slate-800">1. Input Frequency Spectrum (Baseband)</h3>
-                        <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded">0 Hz - 10 kHz</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="chartInput"></canvas>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2 italic">
-                        All four channels overlap at baseband (0-10kHz) before modulation. The filter trims them to 7.5kHz.
-                    </p>
-                </div>
-
-                <!-- Chart 2: Composite Spectrum -->
-                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-slate-800">2. Modulated Composite Spectrum (The Highway)</h3>
-                        <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded">0 Hz - 90 kHz</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="chartComposite"></canvas>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2 italic">
-                        This is the FDM signal. Each channel is shifted to its assigned carrier frequency (20k, 40k, 60k, 80k). Note the guard bands between peaks.
-                    </p>
-                </div>
-
-                <!-- Chart 3: Demodulated Output -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 opacity-75 hover:opacity-100 transition-opacity">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-slate-800">3. Recovered Signals (Demodulated)</h3>
-                        <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded">0 Hz - 10 kHz</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="chartOutput"></canvas>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2 italic">
-                        Using Coherent Detection, we bring the signals back to baseband. If filtered correctly, they match the input.
-                    </p>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Educational Deep Dive Modules -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                <h3 class="font-bold text-lg text-slate-800 mb-3 flex items-center">
-                    <span class="bg-amber-100 text-amber-600 w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">A</span>
-                    Why do we filter?
-                </h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-3">
-                    Without the <strong>Low-Pass Filter (LPF)</strong>, audio signals naturally extend beyond 10kHz. If we modulate a wide signal to 20kHz, its "upper frequencies" might reach 30kHz, crashing into the signal stationed at 40kHz.
-                </p>
-                <div class="bg-stone-100 p-3 rounded text-xs text-stone-600 font-mono">
-                    Aliasing Risk: High Freq Channel 1 + Low Freq Channel 2 = Distortion (Crosstalk)
+            <p class="text-lg textbook-serif italic text-slate-600">
+                Before we can transmit multiple signals, we must understand how a computer "sees" sound and how we prepare it for the journey.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="theory-block">
+                    <h3 class="font-bold text-slate-800 mb-2">1.1 Normalization (The Concept)</h3>
+                    <p class="text-sm text-slate-600">
+                        In communication, different signals must have balanced power. If one signal is significantly louder, it can drown out others or cause "clipping" distortion. Normalization scales the volume peak to a standard limit.
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-500 text-xs uppercase tracking-tighter">Code Implementation</h3>
+                    <div class="code-block">
+                        # Normalizing to range [-1, 1]<br>
+                        data = data / np.max(np.abs(data))
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                <h3 class="font-bold text-lg text-slate-800 mb-3 flex items-center">
-                    <span class="bg-amber-100 text-amber-600 w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm">B</span>
-                    The Modulation Math
-                </h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-3">
-                    We use <strong>DSB-SC (Double Sideband Suppressed Carrier)</strong> modulation. Mathematically, this is just multiplication:
-                </p>
-                <div class="bg-stone-100 p-3 rounded text-xs text-stone-600 font-mono overflow-x-auto">
-                    s(t) = m(t) × cos(2πf_c t)
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="theory-block">
+                    <h3 class="font-bold text-slate-800 mb-2">1.2 Sampling & Nyquist</h3>
+                    <p class="text-sm text-slate-600">
+                        Computers take thousands of "snapshots" per second (Sampling). To avoid <strong>Aliasing</strong> (distortion), we must sample at least twice as fast as the highest sound frequency.
+                    </p>
                 </div>
-                <p class="text-xs text-slate-500 mt-2">
-                    This shifts the baseband signal <code>m(t)</code> to center around <code>f_c</code>.
-                </p>
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-500 text-xs uppercase tracking-tighter">Code Implementation</h3>
+                    <div class="code-block">
+                        # fs is read from the .wav file<br>
+                        fs, data = wavfile.read(path)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2 -->
+        <section id="chapter2" class="space-y-6">
+            <div class="border-b-2 border-stone-200 pb-4">
+                <span class="text-amber-600 font-bold uppercase text-xs tracking-widest">Chapter 2</span>
+                <h2 class="text-3xl font-bold textbook-serif">The Transmitter Chain</h2>
             </div>
 
+            <p class="text-lg textbook-serif italic text-slate-600">
+                How do we pack four separate conversations into one single wire? We use Frequency Division Multiplexing (FDM).
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="theory-block">
+                    <h3 class="font-bold text-slate-800 mb-2">2.1 Anti-Aliasing (Filtering)</h3>
+                    <p class="text-sm text-slate-600">
+                        Standard audio has high frequencies that would "leak" into neighboring lanes. We use a <strong>Low-Pass Filter (LPF)</strong> to trim each channel to a specific bandwidth (e.g., 7.5 kHz).
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-500 text-xs uppercase tracking-tighter">Code Implementation</h3>
+                    <div class="code-block">
+                        # Design a Butterworth Filter<br>
+                        b, a = signal.butter(5, cutoff/nyq)<br>
+                        filtered = signal.lfilter(b, a, data)
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="theory-block">
+                    <h3 class="font-bold text-slate-800 mb-2">2.2 Carrier Modulation</h3>
+                    <p class="text-sm text-slate-600">
+                        Multiplying audio by a high-frequency <strong>Cosine wave</strong> shifts the entire signal to a new home on the frequency spectrum. This is the airplane that carries our audio letter.
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-500 text-xs uppercase tracking-tighter">Code Implementation</h3>
+                    <div class="code-block">
+                        # Modulation (DSB-SC)<br>
+                        mod = filtered * np.cos(2*np.pi*fc*t)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Workbench Section -->
+        <section id="workbench" class="bg-white rounded-2xl shadow-xl p-8 border border-stone-200 ring-8 ring-stone-100">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulation Workbench</h2>
+                <p class="text-slate-500 max-w-lg mx-auto text-sm">Apply the concepts from Chapters 1 and 2 below. Adjust the carrier order and filter to see the results in real-time.</p>
+            </div>
+
+            <!-- UI Controls -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+                <div class="md:col-span-2 space-y-4">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Multiplexer Order Configuration</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                            <label class="block text-[10px] font-bold text-amber-600 uppercase mb-1">Lane 1 (20kHz)</label>
+                            <select id="slot1" class="w-full bg-white text-sm p-1 rounded border border-stone-300" onchange="updateSimulation()"><option value="0">Ch 1</option><option value="1">Ch 2</option><option value="2">Ch 3</option><option value="3">Ch 4</option></select>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                            <label class="block text-[10px] font-bold text-amber-600 uppercase mb-1">Lane 2 (40kHz)</label>
+                            <select id="slot2" class="w-full bg-white text-sm p-1 rounded border border-stone-300" onchange="updateSimulation()"><option value="0">Ch 1</option><option value="1">Ch 2</option><option value="2" selected>Ch 3</option><option value="3">Ch 4</option></select>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                            <label class="block text-[10px] font-bold text-amber-600 uppercase mb-1">Lane 3 (60kHz)</label>
+                            <select id="slot3" class="w-full bg-white text-sm p-1 rounded border border-stone-300" onchange="updateSimulation()"><option value="0">Ch 1</option><option value="1">Ch 2</option><option value="2">Ch 3</option><option value="3" selected>Ch 4</option></select>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                            <label class="block text-[10px] font-bold text-amber-600 uppercase mb-1">Lane 4 (80kHz)</label>
+                            <select id="slot4" class="w-full bg-white text-sm p-1 rounded border border-stone-300" onchange="updateSimulation()"><option value="0">Ch 1</option><option value="1" selected>Ch 2</option><option value="2">Ch 3</option><option value="3">Ch 4</option></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-amber-50 p-5 rounded-xl border border-amber-200 flex flex-col justify-center">
+                    <h4 class="text-xs font-bold text-amber-800 uppercase tracking-widest mb-4">Laboratory Controls</h4>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-amber-900">Anti-Alias Filter</span>
+                        <input type="checkbox" id="filterToggle" class="w-5 h-5 accent-amber-600 cursor-pointer" checked onchange="updateSimulation()">
+                    </div>
+                    <p class="text-[10px] text-amber-700 mt-4 leading-tight">Observe Plot 2 when disabled: Notice how the spectral "mountains" overlap (crosstalk).</p>
+                </div>
+            </div>
+
+            <!-- Graphs -->
+            <div class="space-y-12">
+                <div>
+                    <div class="flex items-baseline justify-between mb-4">
+                        <h5 class="text-sm font-bold text-slate-800">Figure 2.1: Baseband Input Spectrum</h5>
+                        <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded">Pre-Modulation</span>
+                    </div>
+                    <div class="chart-container"><canvas id="chartInput"></canvas></div>
+                </div>
+                <div>
+                    <div class="flex items-baseline justify-between mb-4">
+                        <h5 class="text-sm font-bold text-slate-800">Figure 2.2: Composite Modulated Signal (FDM)</h5>
+                        <span class="text-[10px] bg-amber-100 text-amber-600 px-2 py-1 rounded font-bold">The Transmission Highway</span>
+                    </div>
+                    <div class="chart-container"><canvas id="chartComposite"></canvas></div>
+                </div>
+                <div>
+                    <div class="flex items-baseline justify-between mb-4">
+                        <h5 class="text-sm font-bold text-slate-800">Figure 2.3: Demodulated Output Signals</h5>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-1 rounded">Post-Recovery</span>
+                    </div>
+                    <div class="chart-container"><canvas id="chartOutput"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 3 -->
+        <section id="chapter3" class="space-y-10">
+            <div class="border-b-2 border-stone-200 pb-4">
+                <span class="text-amber-600 font-bold uppercase text-xs tracking-widest">Chapter 3</span>
+                <h2 class="text-3xl font-bold textbook-serif">The Receiver: Recovery</h2>
+            </div>
+
+            <div class="bg-slate-50 p-8 rounded-xl border-t-4 border-slate-500">
+                <h3 class="font-bold text-xl mb-4 textbook-serif">3.1 Coherent Detection</h3>
+                <p class="text-slate-600 mb-6 leading-relaxed">
+                    To pull a signal out of the highway, we multiply the entire composite signal by the <strong>exact same carrier</strong> frequency. This process results in the original signal shifted back to 0 Hz, plus a "ghost" signal at twice the frequency.
+                </p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm mb-6 border border-slate-200">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Mathematical Proof</p>
+                    <div class="math-expr text-center space-y-2">
+                        <p>y(t) = [m(t) &middot; cos(&omega;<sub>c</sub>t)] &middot; cos(&omega;<sub>c</sub>t)</p>
+                        <p>y(t) = m(t) &middot; cos<sup>2</sup>(&omega;<sub>c</sub>t)</p>
+                        <p>y(t) = &frac12;m(t) + &frac12;m(t) &middot; cos(2&omega;<sub>c</sub>t)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="theory-block bg-slate-100 border-slate-600">
+                        <h3 class="font-bold text-slate-800 mb-2">The Recovery Filter</h3>
+                        <p class="text-sm text-slate-600">
+                            The second term (the 2&omega;<sub>c</sub> ghost) is at very high frequency. We use our <strong>Low-Pass Filter</strong> one last time to delete the ghost and keep only the &frac12;m(t) term.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-slate-500 text-xs uppercase tracking-tighter">Code Implementation</h3>
+                        <div class="code-block">
+                            # Demodulate & Final Clean up<br>
+                            mixed = composite * np.cos(2*np.pi*fc*t)<br>
+                            recovered = apply_low_pass(mixed, cutoff=8k)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary & Report Guide -->
+        <section class="bg-stone-800 text-stone-300 p-8 rounded-2xl shadow-inner">
+            <h2 class="text-2xl font-bold text-white textbook-serif mb-6">Lab Report Cheat Sheet</h2>
+            <p class="mb-6 text-sm">Use the following mappings to explain your Python implementation in your final report.</p>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-stone-600 text-stone-500 uppercase text-[10px] tracking-widest">
+                            <th class="py-3 px-4">Lab Task</th>
+                            <th class="py-3 px-4">Python Module</th>
+                            <th class="py-3 px-4">Theoretical Goal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-700">
+                        <tr>
+                            <td class="py-4 px-4 text-white font-semibold">Volume Balance</td>
+                            <td class="py-4 px-4 font-mono text-xs">np.max() / np.abs()</td>
+                            <td class="py-4 px-4 italic text-stone-400 text-xs">Normalization for system stability.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4 text-white font-semibold">Anti-Crosstalk</td>
+                            <td class="py-4 px-4 font-mono text-xs">signal.butter / signal.lfilter</td>
+                            <td class="py-4 px-4 italic text-stone-400 text-xs">Low-pass filtering to limit bandwidth.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4 text-white font-semibold">Signal Shift</td>
+                            <td class="py-4 px-4 font-mono text-xs">audio * np.cos()</td>
+                            <td class="py-4 px-4 italic text-stone-400 text-xs">DSB-SC Modulation to move to carrier.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4 text-white font-semibold">Signal Recovery</td>
+                            <td class="py-4 px-4 font-mono text-xs">composite * carrier</td>
+                            <td class="py-4 px-4 italic text-stone-400 text-xs">Coherent Demodulation at Baseband.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
 
-    <footer class="bg-white border-t border-stone-200 mt-12 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm">Generated for EEC2220 Lab Simulation</p>
+    <footer class="bg-stone-100 border-t border-stone-200 py-12">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <p class="text-stone-400 text-xs textbook-serif italic">This interactive textbook was generated for the Communication Systems (EEC2220) Course Project.</p>
         </div>
     </footer>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Simulation Logic -->
     <script>
-        // --- 1. Data & State Management ---
         const state = {
-            order: [0, 1, 2, 3], // Represents the channel index assigned to [20k, 40k, 60k, 80k]
-            filterEnabled: true,
-            fs: 200000 // Simulation sampling rate
+            order: [0, 1, 2, 3], 
+            filterEnabled: true
         };
 
-        // Channel definitions: Color and "Shape" (center variance to make them look different)
         const channels = [
-            { id: 0, name: "Ch1 (File 1 L)", color: 'rgba(239, 68, 68, 1)',  fill: 'rgba(239, 68, 68, 0.2)', shapeNoise: 0.1 },
-            { id: 1, name: "Ch2 (File 1 R)", color: 'rgba(59, 130, 246, 1)',  fill: 'rgba(59, 130, 246, 0.2)', shapeNoise: 0.3 },
-            { id: 2, name: "Ch3 (File 2 L)", color: 'rgba(16, 185, 129, 1)',  fill: 'rgba(16, 185, 129, 0.2)', shapeNoise: 0.5 },
-            { id: 3, name: "Ch4 (File 2 R)", color: 'rgba(249, 115, 22, 1)',  fill: 'rgba(249, 115, 22, 0.2)', shapeNoise: 0.7 }
+            { id: 0, name: "Channel 1 (File 1 L)", color: 'rgba(239, 68, 68, 1)',  fill: 'rgba(239, 68, 68, 0.1)', shape: 0.1 },
+            { id: 1, name: "Channel 2 (File 1 R)", color: 'rgba(59, 130, 246, 1)',  fill: 'rgba(59, 130, 246, 0.1)', shape: 0.3 },
+            { id: 2, name: "Channel 3 (File 2 L)", color: 'rgba(16, 185, 129, 1)',  fill: 'rgba(16, 185, 129, 0.1)', shape: 0.5 },
+            { id: 3, name: "Channel 4 (File 2 R)", color: 'rgba(249, 115, 22, 1)',  fill: 'rgba(249, 115, 22, 0.1)', shape: 0.7 }
         ];
 
-        // --- 2. Synthetic Data Generation ---
-        // Generates a spectral curve (PSD simulation). 
-        // centerFreq: Where the peak is.
-        // bandwidth: How wide the signal is (controlled by filter).
-        // shapeSeed: Slight randomizer to make channels look distinct.
-        function generateSpectralCurve(centerFreq, bandwidth, shapeSeed) {
-            const points = [];
-            const steps = 100;
-            const range = 15000; // How far to draw left/right of center
-            
+        function generatePoints(center, bw, seed) {
+            const pts = [];
+            const steps = 120;
+            const range = 18000;
             for (let i = 0; i <= steps; i++) {
-                // Map step to frequency offset (-range to +range)
                 const offset = (i - steps/2) * (range * 2 / steps);
-                const freq = centerFreq + offset;
-
-                if (freq < 0) continue; // No negative frequencies
-
-                // Gaussian-like curve for the main signal lobe
-                let power = Math.exp(-Math.pow(offset, 2) / (2 * Math.pow(bandwidth/3, 2)));
-
-                // Add some "jaggedness" to look like real audio spectrum
-                power += (Math.sin(offset * shapeSeed) * 0.05);
-
-                // Cutoff if power is too low (noise floor)
-                if (power < 0.01) power = 0.001;
-                
-                points.push({x: freq, y: power});
+                const freq = center + offset;
+                if (freq < 0) continue;
+                let val = Math.exp(-Math.pow(offset, 2) / (2 * Math.pow(bw/3, 2)));
+                val += (Math.sin(offset * seed) * 0.04);
+                if (val < 0.01) val = 0.001;
+                pts.push({x: freq, y: val});
             }
-            return points;
+            return pts;
         }
 
-        // --- 3. Chart Initialization ---
         let chartInput, chartComposite, chartOutput;
 
         function initCharts() {
-            const commonOptions = {
+            const baseOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: { duration: 800 },
                 scales: {
-                    x: {
-                        type: 'linear',
-                        title: { display: true, text: 'Frequency (Hz)' },
-                        ticks: { stepSize: 5000 }
-                    },
-                    y: {
-                        display: false, // Normalized power, units don't matter for viz
-                        min: 0,
-                        max: 1.2
-                    }
+                    x: { type: 'linear', title: { display: true, text: 'Frequency (Hz)', font: { size: 10 } }, ticks: { font: { size: 9 } } },
+                    y: { display: false, min: 0, max: 1.3 }
                 },
                 plugins: {
-                    legend: { display: false }, // We use custom legend
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label;
-                            }
-                        }
-                    }
+                    legend: { display: false },
+                    tooltip: { enabled: true }
                 }
             };
 
-            // Chart 1: Input
-            const ctxIn = document.getElementById('chartInput').getContext('2d');
-            chartInput = new Chart(ctxIn, {
-                type: 'line',
-                data: { datasets: [] },
-                options: { 
-                    ...commonOptions,
-                    scales: { ...commonOptions.scales, x: { ...commonOptions.scales.x, max: 15000 } }
-                }
+            chartInput = new Chart(document.getElementById('chartInput'), {
+                type: 'line', data: { datasets: [] }, options: { ...baseOptions, scales: { ...baseOptions.scales, x: { ...baseOptions.scales.x, max: 15000 } } }
             });
 
-            // Chart 2: Composite
-            const ctxComp = document.getElementById('chartComposite').getContext('2d');
-            chartComposite = new Chart(ctxComp, {
-                type: 'line',
-                data: { datasets: [] },
-                options: { 
-                    ...commonOptions,
-                    scales: { ...commonOptions.scales, x: { ...commonOptions.scales.x, max: 90000, ticks: { stepSize: 10000 } } }
-                }
+            chartComposite = new Chart(document.getElementById('chartComposite'), {
+                type: 'line', data: { datasets: [] }, options: { ...baseOptions, scales: { ...baseOptions.scales, x: { ...baseOptions.scales.x, max: 95000, ticks: { stepSize: 10000 } } } }
             });
 
-            // Chart 3: Output
-            const ctxOut = document.getElementById('chartOutput').getContext('2d');
-            chartOutput = new Chart(ctxOut, {
-                type: 'line',
-                data: { datasets: [] },
-                options: { 
-                    ...commonOptions,
-                    scales: { ...commonOptions.scales, x: { ...commonOptions.scales.x, max: 15000 } }
-                }
+            chartOutput = new Chart(document.getElementById('chartOutput'), {
+                type: 'line', data: { datasets: [] }, options: { ...baseOptions, scales: { ...baseOptions.scales, x: { ...baseOptions.scales.x, max: 15000 } } }
             });
         }
 
-        // --- 4. Core Logic: Process & Update ---
         function updateSimulation() {
-            // 1. Get UI State
             state.filterEnabled = document.getElementById('filterToggle').checked;
             state.order = [
                 parseInt(document.getElementById('slot1').value),
@@ -397,89 +386,37 @@
                 parseInt(document.getElementById('slot4').value)
             ];
 
-            // 2. Define Physics
-            // If filter ON, bandwidth is ~7.5kHz (narrow). If OFF, ~12kHz (wide, causing overlap).
-            const bandwidth = state.filterEnabled ? 7500 : 12000; 
+            const bw = state.filterEnabled ? 7500 : 13000;
 
-            // 3. Generate Data for Chart 1 (Input)
-            // Just show 4 curves centered at 0 (or slightly offset for visibility)
-            const inputDatasets = channels.map((ch, index) => {
-                return {
-                    label: ch.name,
-                    borderColor: ch.color,
-                    backgroundColor: ch.fill,
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    fill: true,
-                    data: generateSpectralCurve(0, bandwidth, ch.shapeNoise)
-                };
-            });
-            chartInput.data.datasets = inputDatasets;
+            // Update Input Chart
+            chartInput.data.datasets = channels.map(ch => ({
+                label: ch.name, borderColor: ch.color, backgroundColor: ch.fill, fill: true, pointRadius: 0, data: generatePoints(0, bw, ch.shape)
+            }));
             chartInput.update();
 
-            // 4. Generate Data for Chart 2 (Composite)
-            // Carriers: 20k, 40k, 60k, 80k
+            // Update Composite Chart
             const carrierFreqs = [20000, 40000, 60000, 80000];
-            const compositeDatasets = [];
-
-            // We iterate through the CARRIERS (the slots)
-            carrierFreqs.forEach((fc, slotIndex) => {
-                // Find which CHANNEL user put in this slot
-                const channelId = state.order[slotIndex];
-                const ch = channels.find(c => c.id === channelId);
-
-                if (ch) {
-                    compositeDatasets.push({
-                        label: `${ch.name} @ ${fc/1000}kHz`,
-                        borderColor: ch.color,
-                        backgroundColor: ch.fill,
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: true,
-                        // Shift curve to carrier frequency
-                        data: generateSpectralCurve(fc, bandwidth, ch.shapeNoise)
-                    });
-                }
+            const compData = [];
+            carrierFreqs.forEach((fc, idx) => {
+                const ch = channels.find(c => c.id === state.order[idx]);
+                compData.push({
+                    label: ch.name + " @ " + (fc/1000) + "k", borderColor: ch.color, backgroundColor: ch.fill, fill: true, pointRadius: 0, data: generatePoints(fc, bw, ch.shape)
+                });
             });
-            chartComposite.data.datasets = compositeDatasets;
+            chartComposite.data.datasets = compData;
             chartComposite.update();
 
-            // 5. Generate Data for Chart 3 (Output)
-            // This basically mirrors Input, but implies "Recovery"
-            const outputDatasets = channels.map((ch, index) => {
-                return {
-                    label: `Recovered ${ch.name}`,
-                    borderColor: ch.color,
-                    backgroundColor: ch.fill,
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    borderDash: [5, 5], // Dashed line to signify "Recovered"
-                    data: generateSpectralCurve(0, bandwidth, ch.shapeNoise) // Back to 0
-                };
-            });
-            chartOutput.data.datasets = outputDatasets;
+            // Update Output Chart
+            chartOutput.data.datasets = channels.map(ch => ({
+                label: "Recovered " + ch.name, borderColor: ch.color, borderDash: [5, 5], fill: false, pointRadius: 0, data: generatePoints(0, bw, ch.shape)
+            }));
             chartOutput.update();
         }
 
-        // --- 5. Validation (Prevent Duplicates) ---
-        // Optional: Logic to ensure user doesn't select Ch1 for all slots. 
-        // For this sim, we allow duplicates as it might be interesting to see, 
-        // but let's add a visual warning if detected.
-        function checkDuplicates() {
-            const values = state.order;
-            const unique = new Set(values);
-            if (unique.size !== values.length) {
-                // Just a console log or subtle UI hint could go here.
-                // Keeping it simple for now.
-            }
-        }
-
-        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
             updateSimulation();
         });
-
     </script>
 </body>
 </html>
