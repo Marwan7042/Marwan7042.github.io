@@ -7,36 +7,106 @@
     <style>
         :root {
             --primary: #2563eb;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --text: #334155;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --header-bg: #0f172a;
+            --border: #e2e8f0;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--text); background: var(--light); margin: 0; }
-        header { background: var(--dark); color: white; padding: 4rem 2rem; text-align: center; }
-        .container { max-width: 900px; margin: auto; padding: 2rem; }
-        h1 { margin: 0; font-size: 2.5rem; }
-        .subtitle { font-size: 1.2rem; color: #cbd5e1; margin-top: 0.5rem; }
-        .contact-links { margin-top: 1.5rem; }
-        .contact-links a { color: #60a5fa; margin: 0 10px; text-decoration: none; font-weight: bold; }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-light: #94a3b8;
+            --header-bg: #020617;
+            --border: #334155;
+        }
+
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text); 
+            background: var(--bg); 
+            margin: 0; 
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        header { 
+            background: var(--header-bg); 
+            color: white; 
+            padding: 4rem 1rem; 
+            text-align: center; 
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:hover { transform: scale(1.05); }
+
+        .container { max-width: 850px; margin: 2rem auto; padding: 0 1rem; }
         
-        section { margin-bottom: 3rem; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        h2 { border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; color: var(--dark); }
+        section { 
+            background: var(--card-bg); 
+            padding: 2rem; 
+            border-radius: 12px; 
+            margin-bottom: 2rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        h2 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 0; }
+        h3 { margin-bottom: 5px; color: var(--text); }
         
-        .skill-tag { display: inline-block; background: #e2e8f0; padding: 4px 12px; border-radius: 15px; margin: 4px; font-size: 0.9rem; }
-        .project-card { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; }
-        .project-card:last-child { border: none; }
-        .project-title { font-weight: bold; font-size: 1.2rem; color: var(--primary); }
+        .contact-info a { color: #60a5fa; text-decoration: none; margin: 0 10px; font-weight: 500; }
         
-        .edu-item, .exp-item { margin-bottom: 1.5rem; }
-        .date { color: #64748b; font-size: 0.9rem; float: right; }
+        .tag { 
+            display: inline-block; 
+            background: #e2e8f0; 
+            color: #475569;
+            padding: 4px 12px; 
+            border-radius: 15px; 
+            font-size: 0.8rem; 
+            margin: 4px; 
+            font-weight: 600;
+        }
+        [data-theme="dark"] .tag { background: #334155; color: #cbd5e1; }
+
+        .item-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+        .date { color: var(--text-light); font-size: 0.9rem; }
+        
+        .project-card { border-left: 4px solid var(--primary); padding-left: 1.5rem; margin: 1.5rem 0; }
+        .project-link { color: var(--primary); font-weight: bold; text-decoration: none; font-size: 0.9rem; }
+        
+        ul { padding-left: 1.2rem; }
+        li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
 <header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Switch Theme</button>
     <h1>Marwan Mahmoud Mohamed</h1>
-    <div class="subtitle">Computer Engineering Student | AI & Computer Vision Specialist</div>
-    <div class="contact-links">
+    <p style="font-size: 1.2rem; opacity: 0.9;">Computer Engineering Student | AI & Computer Vision</p>
+    <div class="contact-info">
         <a href="mailto:marawanm386@gmail.com">Email</a>
         <a href="https://linkedin.com/in/MarwanMahmoud">LinkedIn</a>
         <a href="https://github.com/Marwan7042">GitHub</a>
@@ -45,38 +115,51 @@
 
 <div class="container">
     <section>
-        <h2>About Me</h2>
-        <p>I am an undergraduate Computer Engineering student with a GPA of 3.65/4.0[cite: 4, 9]. I specialize in Artificial Intelligence, focusing on Machine Learning, Deep Learning, and Computer Vision[cite: 5].</p>
+        <h2>Summary</h2>
+        [cite_start]<p>Undergraduate Computer Engineering student with a strong foundation in Computer Science[cite: 1, 4]. [cite_start]Specializing in Artificial Intelligence, with a focus on Machine Learning, Deep Learning, and Computer Vision[cite: 5].</p>
+    </section>
+
+    <section>
+        <h2>Education</h2>
+        <div class="item-header">
+            <h3>B.S. in Computer Engineering</h3>
+            <span class="date">Expected June 2028</span>
+        </div>
+        [cite_start]<p>Arab Academy for Science, Technology & Maritime Transport[cite: 7, 8].<br>
+        [cite_start]<strong>GPA: 3.65/4.0</strong> [cite: 9]</p>
     </section>
 
     <section>
         <h2>Technical Skills</h2>
-        <div>
-            <strong>Languages:</strong> 
-            <span class="skill-tag">Python</span> <span class="skill-tag">SQL</span> <span class="skill-tag">C/C++</span> [cite: 11]<br>
-            <strong>Libraries:</strong> 
-            <span class="skill-tag">NumPy</span> <span class="skill-tag">Pandas</span> <span class="skill-tag">OpenCV</span> <span class="skill-tag">YOLO</span> <span class="skill-tag">Open3D</span> [cite: 12]<br>
-            <strong>Tools:</strong> 
-            <span class="skill-tag">Git</span> <span class="skill-tag">ROS 2</span> <span class="skill-tag">SQLite</span> [cite: 13]
-        </div>
+        [cite_start]<p><strong>Programming:</strong> <span class="tag">Python</span> <span class="tag">SQL</span> <span class="tag">C/C++</span> [cite: 11]</p>
+        [cite_start]<p><strong>Libraries/AI:</strong> <span class="tag">NumPy</span> <span class="tag">Pandas</span> <span class="tag">Matplotlib</span> <span class="tag">YOLO</span> <span class="tag">OpenCV</span> <span class="tag">SpectacularAI</span> <span class="tag">Open3D</span> [cite: 12]</p>
+        [cite_start]<p><strong>Tools & Concepts:</strong> <span class="tag">Git/GitHub</span> <span class="tag">ROS 2</span> <span class="tag">SQLite</span> <span class="tag">Data Structures</span> <span class="tag">OOP</span> [cite: 13, 14]</p>
     </section>
 
     <section>
         <h2>Experience</h2>
-        <div class="exp-item">
-            <span class="date">Sep 2025</span>
-            <div class="project-title">Software Team Member (Computer Vision) - Triton ROVs</div>
+        <div class="project-card">
+            <div class="item-header">
+                <h3>Software Team Member - Computer Vision</h3>
+                <span class="date">Sep 2025</span>
+            </div>
+            <p><strong>Triton ROVs | MATE ROV | [cite_start]AASTMT</strong> [cite: 16, 17]</p>
             <ul>
-                <li>Developed real-time object detection nodes using YOLO and ROS 2[cite: 18].</li>
-                <li>Generated 3D environment reconstructions using Spectacular AI and Open3D[cite: 19].</li>
+                [cite_start]<li>Developing a real-time object detection node using YOLO and a Raspberry Pi Camera, integrated into the ROS 2 ecosystem[cite: 18].</li>
+                [cite_start]<li>Generating 3D reconstructions by deploying Spectacular AI on an OAK-D camera, utilizing Open3D to process point clouds[cite: 19].</li>
+                [cite_start]<li>Collaborating on system architecture using Git and ROS 2[cite: 20].</li>
             </ul>
         </div>
-        <div class="exp-item">
-            <span class="date">Aug 2025 - Sep 2025</span>
-            <div class="project-title">Data Analysis Intern - Amreya Petroleum (APRC)</div>
+
+        <div class="project-card">
+            <div class="item-header">
+                <h3>Internship Trainee - Data Analysis</h3>
+                <span class="date">Aug 2025 – Sep 2025</span>
+            </div>
+            [cite_start]<p><strong>Amreya Petroleum Refining Company (APRC)</strong> [cite: 21, 22]</p>
             <ul>
-                <li>Extracted and cleaned production data using SQL and Pandas[cite: 23].</li>
-                <li>Analyzed efficiency metrics and generated visualization reports with Matplotlib[cite: 24].</li>
+                [cite_start]<li>Extracted production data via SQL queries and performed data cleaning using Pandas[cite: 23].</li>
+                [cite_start]<li>Generated visualization reports and analyzed efficiency metrics using Matplotlib[cite: 24].</li>
             </ul>
         </div>
     </section>
@@ -84,35 +167,62 @@
     <section>
         <h2>Projects</h2>
         <div class="project-card">
-            <div class="project-title">Unbeatable Tic-Tac-Toe AI</div>
-            <p>Engineered an AI agent using the Minimax algorithm for perfect gameplay[cite: 27].</p>
-            <a href="https://github.com/Marwan7042/Tic-Tac-Toe">View on GitHub</a> [cite: 29]
+            <h3>Unbeatable Tic-Tac-Toe AI</h3>
+            [cite_start]<p>Engineered an AI agent using the Minimax algorithm for perfect gameplay[cite: 26, 27].</p>
+            <a class="project-link" href="https://github.com/Marwan7042/Tic-Tac-Toe">View on GitHub →</a>
         </div>
         <div class="project-card">
-            <div class="project-title">NLP Calculator</div>
-            <p>Developed a natural language parser to evaluate complex mathematical expressions without external libraries[cite: 31, 32].</p>
-            <a href="https://github.com/Marwan7042/Natural-Language-Calculator">View on GitHub</a> [cite: 33]
+            <h3>NLP Calculator</h3>
+            [cite_start]<p>Developed a natural language parser to evaluate complex mathematical expressions[cite: 30, 31].</p>
+            <a class="project-link" href="https://github.com/Marwan7042/Natural-Language-Calculator">View on GitHub →</a>
         </div>
         <div class="project-card">
-            <div class="project-title">Sorting Algorithm Visualizer</div>
-            <p>Built a real-time C-based visualizer featuring a "Sort Battle Mode" for performance comparison[cite: 35, 36].</p>
-            <a href="https://github.com/Marwan7042/sortingVisuals">View on GitHub</a> [cite: 37]
+            <h3>Sorting Algorithm Visualizer</h3>
+            [cite_start]<p>Built a real-time C visualizer for Bubble, Selection, and Merge Sort using ANSI escape codes[cite: 34, 35, 36].</p>
+            <a class="project-link" href="https://github.com/Marwan7042/sortingVisuals">View on GitHub →</a>
+        </div>
+        <div class="project-card">
+            <h3>Speller</h3>
+            [cite_start]<p>Implemented a spell checker in C using hash tables, achieving O(1) average lookup[cite: 38, 39].</p>
         </div>
     </section>
 
     <section>
-        <h2>Education & Certifications</h2>
-        <div class="edu-item">
-            <span class="date">Exp. June 2028</span>
-            <strong>B.S. in Computer Engineering</strong><br>
-            Arab Academy for Science, Technology & Maritime Transport 
-        </div>
+        <h2>Courses & Extracurriculars</h2>
         <ul>
-            <li>Harvard CS50x: Introduction to Computer Science [cite: 44]</li>
-            <li>Harvard CS50P: Introduction to Programming with Python [cite: 47]</li>
+            [cite_start]<li><strong>Harvard CS50x:</strong> Introduction to Computer Science[cite: 44].</li>
+            [cite_start]<li><strong>Harvard CS50P:</strong> Introduction to Programming with Python[cite: 47].</li>
+            [cite_start]<li><strong>AI/ML Volunteer:</strong> GDG on Campus AAST (Nov 2025)[cite: 41].</li>
         </ul>
+        [cite_start]<p><strong>Languages:</strong> English (Advanced C1), Arabic (Native)[cite: 49, 50].</p>
     </section>
 </div>
+
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+</script>
 
 </body>
 </html>
