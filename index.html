@@ -384,13 +384,12 @@
         </nav>
 
         <!-- Hero Section -->
-        <section class="hero">
+        <section class="hero" id="hero">
             <p class="highlight">Hi, my name is</p>
             <h1>Marwan Mahmoud.</h1>
-            <div class="hero-subtitle">I build <span id="typing-text"></span></div>
-            <p style="max-width: 600px; color: var(--text-secondary); margin-bottom: 30px;">
-                Computer Engineering Undergraduate specializing in Artificial Intelligence, Deep Learning, and Computer Vision. 
-                I turn data into decisions and code into autonomy.
+            <div class="hero-subtitle">Specializing in <span id="typing-text"></span></div>
+            <p style="max-width: 700px; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem;">
+                I build things that see, think, and solve. Turning lines of code into autonomous reality.
             </p>
             <div class="social-buttons">
                 <a href="mailto:marawanm386@gmail.com" class="btn btn-primary">
@@ -402,6 +401,164 @@
                 <a href="https://linkedin.com/in/MarwanMahmoud" target="_blank" class="btn">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="about">
+            <h2><span class="highlight">01.</span> Expertise</h2>
+            <div class="skills-grid">
+                <div class="glass-card skill-category">
+                    <h3><i class="fas fa-brain"></i> AI & Libraries</h3>
+                    <div class="skill-tags">
+                        <span class="tag">YOLO</span>
+                        <span class="tag">OpenCV</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">SpectacularAI</span>
+                        <span class="tag">Open3D</span>
+                        <span class="tag">Matplotlib</span>
+                    </div>
+                </div>
+                <div class="glass-card skill-category">
+                    <h3><i class="fas fa-code"></i> Development</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">C</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">ROS 2</span>
+                        <span class="tag">SQLite</span>
+                    </div>
+                </div>
+                <div class="glass-card skill-category">
+                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                        <p style="color: white; font-weight: bold;">B.S. Computer Engineering</p>
+                        <p>Arab Academy for Science & Technology</p>
+                        <p class="highlight" style="margin-top: 5px;">GPA: 3.65 / 4.0</p>
+                        <p>Exp. June 2028</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <h2><span class="highlight">02.</span> Where I've Worked</h2>
+            <div class="timeline">
+                <!-- Role 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Sep 2025 - Present</div>
+                    <div class="timeline-title">Software Team Member (Computer Vision)</div>
+                    <div class="timeline-company">Triton ROVs | MATE ROV Competition</div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Developing a real-time object detection node using <strong>YOLO</strong> and a Raspberry Pi Camera, integrated into the <strong>ROS 2</strong> ecosystem to autonomously identify and track underwater mission targets.</li>
+                            <li>Generating 3D reconstructions of the environment by deploying <strong>Spectacular AI</strong> on an OAK-D camera, utilizing <strong>Open3D</strong> to process point clouds and visualize underwater structures.</li>
+                            <li>Collaborating on the system architecture using <strong>Git</strong> and <strong>ROS 2</strong> to ensure seamless communication between vision and control nodes.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Aug 2025 - Sep 2025</div>
+                    <div class="timeline-title">Data Analysis Intern</div>
+                    <div class="timeline-company">Amreya Petroleum Refining Company (APRC)</div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Extracted production data via <strong>SQL</strong> queries and performed data cleaning/preprocessing using <strong>Pandas</strong>.</li>
+                            <li>Generated visualization reports and analyzed efficiency metrics using <strong>Matplotlib</strong> to support decision-making.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2><span class="highlight">03.</span> Projects</h2>
+            <div class="projects-grid">
+                
+                <!-- Project 1 -->
+                <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-robot folder-icon"></i>
+                        <div class="project-links">
+                            <a href="https://github.com/Marwan7042/Tic-Tac-Toe" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-title">Unbeatable Tic-Tac-Toe AI</div>
+                    <div class="project-desc">
+                        Engineered an unbeatable AI agent using the Minimax algorithm to exhaustively search game states and determine optimal moves. Implemented state-transition logic and terminal-state detection to ensure perfect gameplay.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Minimax Algorithm</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-calculator folder-icon"></i>
+                        <div class="project-links">
+                            <a href="https://github.com/Marwan7042/Natural-Language-Calculator" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-title">NLP Calculator</div>
+                    <div class="project-desc">
+                        Developed a natural language parser that evaluates complex mathematical expressions. Implemented custom string tokenization and operator precedence logic to process input without relying on external evaluation libraries.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>NLP</span>
+                        <span>Tokenization</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-chart-bar folder-icon"></i>
+                        <div class="project-links">
+                            <a href="https://github.com/Marwan7042/sortingVisuals" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-title">Sorting Visualizer</div>
+                    <div class="project-desc">
+                        Built a real-time command-line visualizer for Bubble, Selection, and Merge Sort. Optimized terminal rendering using ANSI escape codes to simulate smooth animations without external graphics libraries, featuring a side-by-side 'Sort Battle Mode' for performance comparison.
+                    </div>
+                    <div class="project-tech">
+                        <span>C Language</span>
+                        <span>Algorithms</span>
+                        <span>CLI</span>
+                    </div>
+                </div>
+
+                 <!-- Project 4 -->
+                 <div class="glass-card">
+                    <div class="project-header">
+                        <i class="fas fa-spell-check folder-icon"></i>
+                        <div class="project-links">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-title">Speller</div>
+                    <div class="project-desc">
+                        Implemented a spell checker in C using hash tables, achieving O(1) average lookup with memory optimization.
+                    </div>
+                    <div class="project-tech">
+                        <span>C Language</span>
+                        <span>Hash Tables</span>
+                        <span>Optimization</span>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -462,9 +619,96 @@
     </div>
 
     <script>
+        // --- Navigation Logic (Keyboard & Touch) ---
+        const sections = document.querySelectorAll('section, footer');
+        let currentSectionIndex = 0;
+        let isScrolling = false;
+
+        function scrollToSection(index) {
+            if (index < 0 || index >= sections.length) return;
+            
+            isScrolling = true;
+            currentSectionIndex = index;
+            
+            sections[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            // Reset scrolling lock after animation (approx 800ms)
+            setTimeout(() => {
+                isScrolling = false;
+            }, 800);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (isScrolling) return;
+
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                scrollToSection(currentSectionIndex + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                scrollToSection(currentSectionIndex - 1);
+            }
+        });
+
+        // Touch Navigation (Swipe)
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: false });
+
+        function handleSwipe() {
+            if (isScrolling) return;
+            
+            const swipeThreshold = 50; // Minimum distance for a swipe
+            const diff = touchStartY - touchEndY;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe Up -> Next Section
+                    scrollToSection(currentSectionIndex + 1);
+                } else {
+                    // Swipe Down -> Prev Section
+                    scrollToSection(currentSectionIndex - 1);
+                }
+            }
+        }
+
+        // Update current index on manual scroll
+        // This ensures if the user scrolls with a mouse wheel, the key nav stays synced
+        const observerOptions = {
+            threshold: 0.5 // Trigger when 50% of section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Find the index of the intersecting section
+                    const index = Array.from(sections).indexOf(entry.target);
+                    if (index !== -1) {
+                        currentSectionIndex = index;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => sectionObserver.observe(section));
+
+
         // --- Typing Effect ---
         const textElement = document.getElementById('typing-text');
-        const phrases = ['AI Solutions.', 'Computer Vision Systems.', 'Robust Code.', 'Future Tech.'];
+        // Updated to match CV Specializations exactly
+        const phrases = ['Artificial Intelligence.', 'Machine Learning.', 'Deep Learning.', 'Computer Vision.'];
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
