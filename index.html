@@ -42,6 +42,25 @@
             opacity: 0.4;
         }
 
+        .bg-shade-effect {
+            position: fixed;
+            top: -20vh;
+            right: 0;
+            width: 75vw;
+            height: 200vh;
+            background-image: url('images/bg-effect.jpeg');
+            background-size: cover;
+            background-position: center left;
+            background-repeat: no-repeat;
+            opacity: 0.12;
+            filter: grayscale(100%) blur(3px) contrast(1.2);
+            z-index: -1;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center right, black 5%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center right, black 5%, transparent 70%);
+            transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
         h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
 
         .g-text {
@@ -606,6 +625,9 @@
 </head>
 <body>
 
+    <!-- Parallax Shade Effect -->
+    <div class="bg-shade-effect"></div>
+
     <nav>
         <div class="nav-logo">Marwan<span class="g-text">.</span></div>
         <div class="nav-links">
@@ -912,8 +934,14 @@
 
         // Nav darken on scroll
         const nav = document.querySelector('nav');
+        const bgEffect = document.querySelector('.bg-shade-effect');
         window.addEventListener('scroll', () => {
             nav.style.background = window.scrollY > 60 ? 'rgba(6,6,9,0.95)' : 'rgba(6,6,9,0.6)';
+            
+            // Parallax background
+            if(bgEffect) {
+                bgEffect.style.transform = `translateY(${window.scrollY * -0.15}px)`;
+            }
         });
     </script>
 </body>
