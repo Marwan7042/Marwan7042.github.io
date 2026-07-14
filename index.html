@@ -260,7 +260,17 @@
             border-top: 1px solid var(--card-border);
             align-items: start;
         }
+        .exp-item.has-visual {
+            grid-template-columns: 45% 55%;
+            align-items: center;
+        }
         .exp-item:first-child { border-top: none; }
+        
+        .exp-text-col {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
 
         .exp-meta { position: sticky; top: 100px; }
         .exp-role { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
@@ -303,10 +313,10 @@
         .card-stack {
             position: relative;
             width: 100%;
-            height: 420px;
-            perspective: 1000px;
+            aspect-ratio: 1.35;
+            perspective: 1200px;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 0;
         }
         
         .card-stack::before {
@@ -331,14 +341,14 @@
         .stacked-card {
             position: absolute;
             width: 90%;
-            height: 340px;
+            height: 90%;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(0,212,255,0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
             transform-origin: center center;
-            top: 20px;
+            top: 5%;
             left: 5%;
         }
         
@@ -584,6 +594,7 @@
             .section-wrap { padding: 80px 24px; }
             .edu-section { padding: 80px 24px; }
             .exp-item { grid-template-columns: 1fr; gap: 24px; }
+            .exp-item.has-visual { grid-template-columns: 1fr; }
             .exp-meta { position: static; }
             .projects-grid { grid-template-columns: 1fr; }
             .proj-card.featured { grid-column: span 1; }
@@ -657,30 +668,35 @@
         <div class="exp-grid">
 
             <!-- Triton ROVs -->
-            <div class="exp-item reveal">
-                <div class="exp-meta">
-                    <div class="exp-role">Software Member — Vision & Autonomy</div>
-                    <div class="exp-org">Triton ROVs · MATE ROV Competition</div>
-                    <div class="exp-period">2025 — Present</div>
-                    <div class="exp-stack">
-                        <span class="tag-sm">Python</span>
-                        <span class="tag-sm">C++</span>
-                        <span class="tag-sm">asyncio</span>
-                        <span class="tag-sm">DepthAI</span>
-                        <span class="tag-sm">OpenVINO</span>
-                        <span class="tag-sm">OpenCV</span>
-                        <span class="tag-sm">EKF/ESKF</span>
+            <div class="exp-item has-visual reveal">
+                <div class="exp-text-col">
+                    <div class="exp-meta" style="position: static;">
+                        <div class="exp-role">Software Member — Vision & Autonomy</div>
+                        <div class="exp-org">Triton ROVs · MATE ROV Competition</div>
+                        <div class="exp-period">2025 — Present</div>
+                        <div class="exp-stack">
+                            <span class="tag-sm">Python</span>
+                            <span class="tag-sm">C++</span>
+                            <span class="tag-sm">asyncio</span>
+                            <span class="tag-sm">DepthAI</span>
+                            <span class="tag-sm">OpenVINO</span>
+                            <span class="tag-sm">OpenCV</span>
+                            <span class="tag-sm">EKF/ESKF</span>
+                        </div>
+                    </div>
+
+                    <div class="exp-body">
+                        <p>I build intelligence for the physical world as part of Triton ROVs — a 40-member interdisciplinary robotics team at AASTMT.</p>
+                        <p>My work focused on engineering the robot's perception and streaming architectures from the ground up: developing a custom Visual Inertial Odometry (VIO) pipeline using an Error-State Kalman Filter, deploying YOLOv8 onto Intel VPU hardware, and writing lock-free multi-camera streaming protocols for real-time operation on low-power devices.</p>
+                        
+                        <div class="resume-note" style="margin-bottom: 0;">
+                            <i class="fas fa-microchip" style="color: var(--cyan); margin-right: 8px;"></i>
+                            <strong>Deep Tech Specs:</strong> Full details of the algorithms, optimization techniques, and network architecture are available in my resume and on GitHub.
+                        </div>
                     </div>
                 </div>
 
-                <div class="exp-body">
-                    <p>I build intelligence for the physical world as part of Triton ROVs — a 40-member interdisciplinary robotics team at AASTMT.</p>
-                    <p>My work focused on engineering the robot's perception and streaming architectures from the ground up: developing a custom Visual Inertial Odometry (VIO) pipeline using an Error-State Kalman Filter, deploying YOLOv8 onto Intel VPU hardware, and writing lock-free multi-camera streaming protocols for real-time operation on low-power devices.</p>
-                    
-                    <div class="resume-note">
-                        <i class="fas fa-microchip" style="color: var(--cyan); margin-right: 8px;"></i>
-                        <strong>Deep Tech Specs:</strong> Full details of the algorithms, optimization techniques, and network architecture are available in my resume and on GitHub.
-                    </div>
+                <div class="exp-visual-col">
 
                     <!-- Stacked Swiping Cards -->
                     <div class="card-stack" id="tritonStack">
@@ -719,7 +735,6 @@
                             }, 400); 
                         });
                     </script>
-
                 </div>
             </div>
 
