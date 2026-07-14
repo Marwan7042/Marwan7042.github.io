@@ -138,6 +138,7 @@
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--cyan), var(--purple));
@@ -287,21 +288,6 @@
         .exp-body p:last-child { margin-bottom: 0; }
         .exp-body strong { color: var(--white); font-weight: 500; }
 
-        .exp-photos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 28px;
-        }
-        .exp-photo {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--card-border);
-            transition: transform 0.35s;
-        }
-        .exp-photo:hover { transform: scale(1.02); }
-        .exp-photo img { width: 100%; height: 180px; object-fit: cover; display: block; }
-        
         .resume-note {
             margin-top: 24px;
             padding: 16px 20px;
@@ -310,7 +296,75 @@
             font-size: 0.9rem;
             color: var(--white);
             border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
         }
+
+        /* ── INTERACTIVE CAROUSEL ── */
+        .image-carousel {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .carousel-main {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            background: #000;
+        }
+        
+        .carousel-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        
+        .carousel-main img.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .carousel-thumbs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: var(--card-border);
+        }
+        
+        .thumb {
+            height: 80px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            transition: all 0.3s;
+        }
+        
+        .thumb:hover img { opacity: 0.8; }
+        .thumb.active img { opacity: 1; }
+        
+        .thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .thumb.active::after { border-color: var(--cyan); }
 
         /* ── PROJECTS ── */
         .projects-grid {
@@ -380,60 +434,98 @@
         .edu-section {
             position: relative;
             overflow: hidden;
-            padding: 120px 80px;
+            padding: 140px 80px;
             border-bottom: 1px solid var(--card-border);
         }
 
-        /* Background Certificates Collage */
+        /* Ambient Dynamic Certificate Background */
         .cert-collage {
             position: absolute;
-            inset: -50px;
+            inset: -100px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            opacity: 0.15;
-            filter: grayscale(100%) contrast(1.2) brightness(0.8);
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             z-index: 0;
-            transform: rotate(-3deg) scale(1.1);
             pointer-events: none;
+            transform: perspective(1000px) rotateX(20deg) rotateY(-10deg) scale(1.2);
+            transform-style: preserve-3d;
+            animation: slowPan 40s linear infinite alternate;
         }
         
-        .cert-img {
+        @keyframes slowPan {
+            0% { transform: perspective(1000px) rotateX(20deg) rotateY(-10deg) scale(1.2) translateY(0); }
+            100% { transform: perspective(1000px) rotateX(20deg) rotateY(-5deg) scale(1.2) translateY(-40px); }
+        }
+        
+        .cert-img-bg {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            opacity: 0.25; /* Made much more visible! */
+            box-shadow: 0 0 50px rgba(0,212,255,0.2);
+            filter: grayscale(40%) contrast(1.1) brightness(1.2);
+            mix-blend-mode: screen;
+            transition: opacity 0.5s;
         }
         
+        /* A subtle gradient overlay so the text remains readable, but the certs shine through */
         .cert-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, var(--bg) 0%, rgba(6,6,9,0.8) 50%, var(--bg) 100%);
-            backdrop-filter: blur(8px);
+            background: radial-gradient(circle at center, rgba(6,6,9,0.7) 0%, rgba(6,6,9,0.95) 100%);
             z-index: 1;
         }
 
         .edu-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 24px; 
+            gap: 30px; 
             position: relative; 
             z-index: 10; 
         }
 
         .edu-card {
-            background: rgba(15, 15, 20, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 36px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-top: 1px solid rgba(0,212,255,0.3);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        .edu-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
-        .edu-card .sub { color: var(--cyan); font-size: 0.95rem; margin-bottom: 20px; font-weight: 500; }
-        .edu-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; }
+        .edu-card h3 { font-size: 1.25rem; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .edu-card .sub { color: var(--cyan); font-size: 0.95rem; margin-bottom: 24px; font-weight: 500; letter-spacing: 0.5px; }
+        .edu-card p { font-size: 0.95rem; color: var(--white); line-height: 1.8; opacity: 0.85; }
+
+        .cert-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .cert-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--white);
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+        
+        .cert-list li i {
+            color: var(--gold);
+            margin-top: 4px;
+        }
+        
+        .cert-list li strong {
+            display: block;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
 
         /* ── FOOTER ── */
         .footer-cta {
@@ -474,11 +566,11 @@
             .edu-section { padding: 80px 24px; }
             .exp-item { grid-template-columns: 1fr; gap: 24px; }
             .exp-meta { position: static; }
-            .exp-photos { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
             .proj-card.featured { grid-column: span 1; }
             .edu-grid { grid-template-columns: 1fr; }
             .footer-cta { padding: 80px 24px; }
+            .carousel-main { height: 250px; }
         }
     </style>
 </head>
@@ -575,20 +667,37 @@
                         <strong>Deep Tech Specs:</strong> Full details of the algorithms, optimization techniques, and network architecture are available in my resume and on GitHub.
                     </div>
 
-                    <div class="exp-photos">
-                        <div class="exp-photo">
-                            <img src="images/triton-2.jpg" alt="The full Triton ROV team with the robot and trophies">
+                    <!-- Interactive Carousel -->
+                    <div class="image-carousel">
+                        <div class="carousel-main">
+                            <img src="images/triton-2.jpg" alt="The full Triton ROV team" class="active" id="mainImage1">
+                            <img src="images/triton-1.jpg" alt="Receiving the official recognition certificate" id="mainImage2">
+                            <img src="images/triton-3.jpg" alt="The ROV hardware open for inspection" id="mainImage3">
+                            <img src="images/triton-4.jpg" alt="Official MATE ROV World Championship certificate" id="mainImage4">
                         </div>
-                        <div class="exp-photo">
-                            <img src="images/triton-1.jpg" alt="Receiving the official recognition certificate">
-                        </div>
-                        <div class="exp-photo">
-                            <img src="images/triton-3.jpg" alt="The ROV hardware open for inspection">
-                        </div>
-                        <div class="exp-photo">
-                            <img src="images/triton-4.jpg" alt="Official MATE ROV World Championship certificate">
+                        <div class="carousel-thumbs">
+                            <div class="thumb active" onclick="switchImage(1, this)"><img src="images/triton-2.jpg" alt="Thumb 1"></div>
+                            <div class="thumb" onclick="switchImage(2, this)"><img src="images/triton-1.jpg" alt="Thumb 2"></div>
+                            <div class="thumb" onclick="switchImage(3, this)"><img src="images/triton-3.jpg" alt="Thumb 3"></div>
+                            <div class="thumb" onclick="switchImage(4, this)"><img src="images/triton-4.jpg" alt="Thumb 4"></div>
                         </div>
                     </div>
+                    
+                    <script>
+                        function switchImage(index, thumbElement) {
+                            // Hide all main images
+                            for(let i=1; i<=4; i++) {
+                                document.getElementById('mainImage' + i).classList.remove('active');
+                            }
+                            // Show selected image
+                            document.getElementById('mainImage' + index).classList.add('active');
+                            
+                            // Update thumbnail styling
+                            document.querySelectorAll('.thumb').forEach(el => el.classList.remove('active'));
+                            thumbElement.classList.add('active');
+                        }
+                    </script>
+
                 </div>
             </div>
 
@@ -688,15 +797,16 @@
     <!-- EDUCATION & CERTS -->
     <section class="edu-section" id="education">
         
-        <!-- Background Certificate Effect -->
+        <!-- Ambient Dynamic Certificate Background -->
         <div class="cert-collage">
-            <img src="images/cert-ml.png" class="cert-img" alt="">
-            <img src="images/cert-mate-egypt.png" class="cert-img" alt="">
-            <img src="images/cert-edge-ai.png" class="cert-img" alt="">
+            <img src="images/cert-ml.png" class="cert-img-bg" alt="">
+            <img src="images/cert-mate-egypt.png" class="cert-img-bg" alt="">
+            <img src="images/cert-edge-ai.png" class="cert-img-bg" alt="">
+            <img src="images/cert-cs50.png" class="cert-img-bg" alt="">
         </div>
         <div class="cert-overlay"></div>
 
-        <div class="section-label" style="border: none;">Education & Certifications</div>
+        <div class="section-label" style="border: none; position: relative; z-index: 10;">Education & Certifications</div>
         
         <div class="edu-grid">
             <div class="edu-card reveal">
@@ -709,11 +819,35 @@
             <div class="edu-card reveal delay-1">
                 <h3>Professional Certifications</h3>
                 <div class="sub">Continuous Learning</div>
-                <ul style="color: var(--muted); padding-left: 16px; font-size: 0.95rem; line-height: 1.8;">
-                    <li><strong>Stanford / DeepLearning.AI</strong> — Supervised Machine Learning</li>
-                    <li><strong>Edge Impulse</strong> — Edge AI Fundamentals</li>
-                    <li><strong>Harvard University</strong> — CS50x, CS50Python, CS50SQL</li>
-                    <li><strong>DeepLearning.AI</strong> — Advanced Learning Algorithms (Ongoing)</li>
+                <ul class="cert-list">
+                    <li>
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>Supervised Machine Learning</strong>
+                            Stanford University / DeepLearning.AI
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>Edge AI Fundamentals</strong>
+                            Edge Impulse
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>CS50x, CS50Python, CS50SQL</strong>
+                            Harvard University
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>Advanced Learning Algorithms</strong>
+                            DeepLearning.AI (Ongoing)
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
