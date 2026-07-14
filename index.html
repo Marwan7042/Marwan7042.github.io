@@ -215,7 +215,7 @@
         /* ── STATS ── */
         .stats-bar {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             border-top: 1px solid var(--card-border);
             border-bottom: 1px solid var(--card-border);
         }
@@ -299,72 +299,67 @@
             margin-bottom: 30px;
         }
 
-        /* ── INTERACTIVE CAROUSEL ── */
-        .image-carousel {
-            border: 1px solid var(--card-border);
+        /* ── STACKED CARDS EFFECT ── */
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .stacked-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             border-radius: 12px;
             overflow: hidden;
-            background: rgba(0,0,0,0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,212,255,0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-origin: center top;
         }
         
-        .carousel-main {
-            width: 100%;
-            height: 400px;
-            position: relative;
-            background: #000;
-        }
-        
-        .carousel-main img {
+        .stacked-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        
-        .carousel-main img.active {
             display: block;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+        /* Dynamic state attributes handled by JS */
+        .stacked-card[data-index="0"] {
+            z-index: 4;
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
-        
-        .carousel-thumbs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            background: var(--card-border);
+        .stacked-card[data-index="1"] {
+            z-index: 3;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0.7;
+            pointer-events: none;
         }
-        
-        .thumb {
-            height: 80px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .stacked-card[data-index="2"] {
+            z-index: 2;
+            transform: translateY(40px) scale(0.9);
             opacity: 0.4;
-            transition: all 0.3s;
+            pointer-events: none;
+        }
+        .stacked-card[data-index="3"] {
+            z-index: 1;
+            transform: translateY(60px) scale(0.85);
+            opacity: 0.15;
+            pointer-events: none;
         }
         
-        .thumb:hover img { opacity: 0.8; }
-        .thumb.active img { opacity: 1; }
-        
-        .thumb::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border: 2px solid transparent;
-            transition: border-color 0.3s;
+        /* Swipe away animation class */
+        .stacked-card.swiping {
+            transform: translateX(60%) translateY(-20%) rotate(8deg) scale(0.9);
+            opacity: 0;
+            z-index: 5;
         }
-        .thumb.active::after { border-color: var(--cyan); }
 
         /* ── PROJECTS ── */
         .projects-grid {
@@ -560,8 +555,9 @@
             .hero-visual { height: 300px; }
             .hero-bio { max-width: 100%; }
             .floating-badge { display: none; }
-            .stats-bar { grid-template-columns: repeat(2,1fr); }
-            .stat-item:nth-child(2) { border-right: none; }
+            .stats-bar { grid-template-columns: repeat(3,1fr); }
+            .stat-item { padding: 20px 10px; }
+            .stat-item:nth-child(3) { border-right: none; }
             .section-wrap { padding: 80px 24px; }
             .edu-section { padding: 80px 24px; }
             .exp-item { grid-template-columns: 1fr; gap: 24px; }
@@ -570,7 +566,7 @@
             .proj-card.featured { grid-column: span 1; }
             .edu-grid { grid-template-columns: 1fr; }
             .footer-cta { padding: 80px 24px; }
-            .carousel-main { height: 250px; }
+            .card-stack { height: 260px; }
         }
     </style>
 </head>
@@ -629,10 +625,6 @@
             <div class="stat-number g-text">40</div>
             <div class="stat-label">Engineers on the Triton ROV Team</div>
         </div>
-        <div class="stat-item reveal delay-3">
-            <div class="stat-number g-text">3.45</div>
-            <div class="stat-label">GPA — Expected Graduation 2028</div>
-        </div>
     </div>
 
     <!-- EXPERIENCE -->
@@ -667,35 +659,42 @@
                         <strong>Deep Tech Specs:</strong> Full details of the algorithms, optimization techniques, and network architecture are available in my resume and on GitHub.
                     </div>
 
-                    <!-- Interactive Carousel -->
-                    <div class="image-carousel">
-                        <div class="carousel-main">
-                            <img src="images/triton-2.jpg" alt="The full Triton ROV team" class="active" id="mainImage1">
-                            <img src="images/triton-1.jpg" alt="Receiving the official recognition certificate" id="mainImage2">
-                            <img src="images/triton-3.jpg" alt="The ROV hardware open for inspection" id="mainImage3">
-                            <img src="images/triton-4.jpg" alt="Official MATE ROV World Championship certificate" id="mainImage4">
-                        </div>
-                        <div class="carousel-thumbs">
-                            <div class="thumb active" onclick="switchImage(1, this)"><img src="images/triton-2.jpg" alt="Thumb 1"></div>
-                            <div class="thumb" onclick="switchImage(2, this)"><img src="images/triton-1.jpg" alt="Thumb 2"></div>
-                            <div class="thumb" onclick="switchImage(3, this)"><img src="images/triton-3.jpg" alt="Thumb 3"></div>
-                            <div class="thumb" onclick="switchImage(4, this)"><img src="images/triton-4.jpg" alt="Thumb 4"></div>
-                        </div>
+                    <!-- Stacked Swiping Cards -->
+                    <div class="card-stack" id="tritonStack">
+                        <div class="stacked-card"><img src="images/triton-2.jpg" alt="The full Triton ROV team"></div>
+                        <div class="stacked-card"><img src="images/triton-1.jpg" alt="Receiving the official recognition certificate"></div>
+                        <div class="stacked-card"><img src="images/triton-3.jpg" alt="The ROV hardware open for inspection"></div>
+                        <div class="stacked-card"><img src="images/triton-4.jpg" alt="Official MATE ROV World Championship certificate"></div>
                     </div>
                     
                     <script>
-                        function switchImage(index, thumbElement) {
-                            // Hide all main images
-                            for(let i=1; i<=4; i++) {
-                                document.getElementById('mainImage' + i).classList.remove('active');
-                            }
-                            // Show selected image
-                            document.getElementById('mainImage' + index).classList.add('active');
-                            
-                            // Update thumbnail styling
-                            document.querySelectorAll('.thumb').forEach(el => el.classList.remove('active'));
-                            thumbElement.classList.add('active');
+                        const stack = document.getElementById('tritonStack');
+                        const cards = Array.from(stack.querySelectorAll('.stacked-card'));
+                        let currentOrder = [0, 1, 2, 3]; 
+
+                        function updateCards() {
+                            currentOrder.forEach((domIndex, positionIndex) => {
+                                cards[domIndex].setAttribute('data-index', positionIndex);
+                                cards[domIndex].classList.remove('swiping');
+                            });
                         }
+
+                        // Initial setup
+                        updateCards();
+
+                        stack.addEventListener('click', () => {
+                            const topCardIndex = currentOrder[0];
+                            const topCard = cards[topCardIndex];
+                            
+                            // Add swiping out animation
+                            topCard.classList.add('swiping');
+                            
+                            // After it swipes out, move it to the back and update states
+                            setTimeout(() => {
+                                currentOrder.push(currentOrder.shift());
+                                updateCards();
+                            }, 400); 
+                        });
                     </script>
 
                 </div>
