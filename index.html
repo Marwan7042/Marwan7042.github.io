@@ -118,7 +118,7 @@
         }
 
         .hero-bio {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             color: var(--muted);
             line-height: 1.85;
             max-width: 500px;
@@ -151,6 +151,13 @@
             color: var(--white);
         }
         .btn-ghost:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+        
+        .btn-accent {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--white);
+        }
+        .btn-accent:hover { background: rgba(255,255,255,0.1); border-color: var(--cyan); transform: translateY(-2px); color: var(--cyan); }
 
         /* Photo collage */
         .hero-visual {
@@ -224,6 +231,7 @@
         .section-wrap {
             padding: 120px 80px;
             border-bottom: 1px solid var(--card-border);
+            position: relative;
         }
 
         .section-label {
@@ -235,11 +243,13 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            position: relative;
+            z-index: 10;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
 
         /* ── EXPERIENCE ── */
-        .exp-grid { display: flex; flex-direction: column; gap: 0; }
+        .exp-grid { display: flex; flex-direction: column; gap: 0; position: relative; z-index: 10; }
 
         .exp-item {
             display: grid;
@@ -273,7 +283,7 @@
             border-radius: 4px;
         }
 
-        .exp-body p { font-size: 0.98rem; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+        .exp-body p { font-size: 1.05rem; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
         .exp-body p:last-child { margin-bottom: 0; }
         .exp-body strong { color: var(--white); font-weight: 500; }
 
@@ -291,13 +301,24 @@
         }
         .exp-photo:hover { transform: scale(1.02); }
         .exp-photo img { width: 100%; height: 180px; object-fit: cover; display: block; }
-        .exp-photo.tall img { height: 260px; }
+        
+        .resume-note {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: rgba(0,212,255,0.05);
+            border-left: 3px solid var(--cyan);
+            font-size: 0.9rem;
+            color: var(--white);
+            border-radius: 0 8px 8px 0;
+        }
 
         /* ── PROJECTS ── */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            position: relative;
+            z-index: 10;
         }
 
         .proj-card {
@@ -355,19 +376,64 @@
         }
         .proj-card.featured .proj-title { font-size: 1.3rem; }
 
-        /* ── EDUCATION ── */
-        .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-        .edu-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 32px;
+        /* ── EDUCATION & CERTS ── */
+        .edu-section {
+            position: relative;
+            overflow: hidden;
+            padding: 120px 80px;
+            border-bottom: 1px solid var(--card-border);
         }
 
-        .edu-card h3 { font-size: 1.1rem; margin-bottom: 6px; }
-        .edu-card .sub { color: var(--cyan); font-size: 0.9rem; margin-bottom: 14px; }
-        .edu-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+        /* Background Certificates Collage */
+        .cert-collage {
+            position: absolute;
+            inset: -50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            opacity: 0.15;
+            filter: grayscale(100%) contrast(1.2) brightness(0.8);
+            z-index: 0;
+            transform: rotate(-3deg) scale(1.1);
+            pointer-events: none;
+        }
+        
+        .cert-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+        
+        .cert-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, var(--bg) 0%, rgba(6,6,9,0.8) 50%, var(--bg) 100%);
+            backdrop-filter: blur(8px);
+            z-index: 1;
+        }
+
+        .edu-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            position: relative; 
+            z-index: 10; 
+        }
+
+        .edu-card {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .edu-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+        .edu-card .sub { color: var(--cyan); font-size: 0.95rem; margin-bottom: 20px; font-weight: 500; }
+        .edu-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; }
 
         /* ── FOOTER ── */
         .footer-cta {
@@ -405,6 +471,7 @@
             .stats-bar { grid-template-columns: repeat(2,1fr); }
             .stat-item:nth-child(2) { border-right: none; }
             .section-wrap { padding: 80px 24px; }
+            .edu-section { padding: 80px 24px; }
             .exp-item { grid-template-columns: 1fr; gap: 24px; }
             .exp-meta { position: static; }
             .exp-photos { grid-template-columns: 1fr; }
@@ -433,15 +500,15 @@
         <div class="orb orb-2"></div>
 
         <div class="hero-text">
-            <div class="hero-eyebrow reveal">B.Sc. Computer Engineering · AASTMT</div>
-            <h1 class="hero-title reveal delay-1">Software &amp; AI<br><span class="g-text">Engineer.</span></h1>
+            <div class="hero-eyebrow reveal">Software & AI Engineer</div>
+            <h1 class="hero-title reveal delay-1">I build things that<br>see, think, and<br><span class="g-text">solve.</span></h1>
             <p class="hero-bio reveal delay-2">
-                I like understanding how things work at the lowest level. I have spent the last couple of years building real-time perception systems for underwater robotics, and in my free time, engineering a deep learning framework from scratch in C++.
+                Turning lines of code into autonomous reality.
             </p>
             <div class="hero-ctas reveal delay-3">
-                <a href="#experience" class="btn btn-primary">See My Work</a>
-                <a href="https://github.com/Marwan7042" target="_blank" class="btn btn-ghost"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://www.linkedin.com/in/marwan7042/" target="_blank" class="btn btn-ghost"><i class="fab fa-linkedin"></i></a>
+                <a href="#projects" class="btn btn-primary">See My Work</a>
+                <a href="Marwan_Mahmoud.docx" class="btn btn-accent" download><i class="fas fa-file-download"></i> Download Resume</a>
+                <a href="https://github.com/Marwan7042" target="_blank" class="btn btn-ghost"><i class="fab fa-github"></i></a>
             </div>
         </div>
 
@@ -496,18 +563,17 @@
                         <span class="tag-sm">OpenVINO</span>
                         <span class="tag-sm">OpenCV</span>
                         <span class="tag-sm">EKF/ESKF</span>
-                        <span class="tag-sm">Linux</span>
                     </div>
                 </div>
 
                 <div class="exp-body">
-                    <p>Triton ROVs is a 40-member student team at AASTMT that competes in the MATE ROV competition — one of the most demanding student robotics competitions globally. The team covers mechanical, electrical, and software engineering, and has to integrate all three under competition pressure.</p>
-
-                    <p>As part of the Vision & Autonomy subteam, I worked on the perception and streaming systems. On the perception side, I built a full Visual Inertial Odometry pipeline using an <strong>Error-State Kalman Filter</strong> (ESKF) with hand-derived Jacobians, since GPS doesn't work underwater. I also deployed <strong>YOLOv8 on an Intel MyriadX VPU</strong> via OpenVINO, which required debugging CMX memory overflow issues and identifying an architectural incompatibility between YOLOv11 attention blocks and the MyriadX.</p>
-
-                    <p>On the streaming side, I built a lock-free multi-camera system that handles 5 simultaneous feeds on a Raspberry Pi 4, keeping CPU below 70% through Broadcom ISP offloading and core affinity pinning. The network stack uses a dual-protocol design — zero-copy binary video over WebSockets isolated from REST control polling — to avoid blocking under concurrent load.</p>
-
-                    <p>The team won <strong>1st Place Regionally in Egypt</strong> and <strong>3rd Place at the World Championship in Canada</strong>. The team also received the Best Engineering Presentation and Best Technical Documentation awards — a collective effort across all 40 members.</p>
+                    <p>I build intelligence for the physical world as part of Triton ROVs — a 40-member interdisciplinary robotics team at AASTMT.</p>
+                    <p>My work focused on engineering the robot's perception and streaming architectures from the ground up: developing a custom Visual Inertial Odometry (VIO) pipeline using an Error-State Kalman Filter, deploying YOLOv8 onto Intel VPU hardware, and writing lock-free multi-camera streaming protocols for real-time operation on low-power devices.</p>
+                    
+                    <div class="resume-note">
+                        <i class="fas fa-microchip" style="color: var(--cyan); margin-right: 8px;"></i>
+                        <strong>Deep Tech Specs:</strong> Full details of the algorithms, optimization techniques, and network architecture are available in my resume and on GitHub.
+                    </div>
 
                     <div class="exp-photos">
                         <div class="exp-photo">
@@ -535,12 +601,12 @@
                     <div class="exp-stack">
                         <span class="tag-sm">Python</span>
                         <span class="tag-sm">SQL</span>
-                        <span class="tag-sm">Data Visualization</span>
+                        <span class="tag-sm">SCADA Analytics</span>
                     </div>
                 </div>
 
                 <div class="exp-body">
-                    <p>Worked inside an active petroleum refinery environment, learning how industrial data flows from SCADA systems into monitoring pipelines. Extracted and analyzed 50K+ sensor records, identified 8 anomalies, and built statistical filters that saved roughly 4 hours per week of manual monitoring. Also contributed to weekly reporting and helped support two process optimization decisions.</p>
+                    <p>Analyzed 50K+ live sensor records from SCADA systems inside an active refinery. Built anomaly detection filters that saved engineering hours, and delivered insights that directly supported process optimization decisions.</p>
                 </div>
             </div>
 
@@ -563,7 +629,7 @@
                 </div>
                 <div class="proj-title">Deep Learning Framework from Scratch</div>
                 <div class="proj-desc">
-                    Something I have been working on in my free time to understand how deep learning actually works under the hood. I built a PyTorch-style Tensor class with N-dimensional strides, a reverse-mode Autograd engine using topological sort, and an SGD optimizer — all on top of a custom STL library I wrote first. Then I integrated NVIDIA CUDA and cuBLAS to offload matrix multiplications to the GPU, and trained an MLP on MNIST, reaching 95.2% accuracy.
+                    A PyTorch-style Tensor class with N-dimensional strides, a reverse-mode Autograd engine using topological sort, and an SGD optimizer — all on top of a custom STL library I wrote first. Integrated NVIDIA CUDA and cuBLAS to offload matrix multiplications to the GPU. (95.2% MNIST accuracy).
                 </div>
                 <div class="proj-links">
                     <a href="https://github.com/Marwan7042/AutoGrad" target="_blank" class="proj-link"><i class="fab fa-github"></i> Source</a>
@@ -576,7 +642,7 @@
                 <div class="proj-icon"><i class="fas fa-cubes"></i></div>
                 <div class="chip-row"><span class="chip">C++</span><span class="chip">Templates</span></div>
                 <div class="proj-title">Custom STL Library</div>
-                <div class="proj-desc">Built 8+ data structures including vector, linked list, stack, and hash map using C++ templates and iterators — with 50+ unit tests. The foundation the ML framework sits on.</div>
+                <div class="proj-desc">Built 8+ data structures (vector, linked list, stack, hash map) using C++ templates and iterators — with 50+ unit tests.</div>
                 <div class="proj-links"><a href="#" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
@@ -585,7 +651,7 @@
                 <div class="proj-icon"><i class="fas fa-server"></i></div>
                 <div class="chip-row"><span class="chip p">Java</span><span class="chip p">SQL</span></div>
                 <div class="proj-title">University Registration System</div>
-                <div class="proj-desc">Concurrent course registration handling 10+ simultaneous users. MVC pattern, 3NF relational schema, thread-safe transaction handling to prevent race conditions.</div>
+                <div class="proj-desc">Concurrent course registration handling 10+ simultaneous users. MVC pattern, 3NF relational schema, thread-safe transaction handling.</div>
                 <div class="proj-links"><a href="#" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
@@ -594,7 +660,7 @@
                 <div class="proj-icon"><i class="fas fa-language"></i></div>
                 <div class="chip-row"><span class="chip p">Python</span><span class="chip p">NLP</span></div>
                 <div class="proj-title">NLP Mathematical Parser</div>
-                <div class="proj-desc">Recursive descent parser that interprets plain English math expressions ("three times x plus five"). Tokenization, semantic analysis, and variable binding — tested on 30+ cases.</div>
+                <div class="proj-desc">Recursive descent parser that interprets plain English math ("three times x plus five"). Tokenization, semantic analysis, and variable binding.</div>
                 <div class="proj-links"><a href="#" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
@@ -603,7 +669,7 @@
                 <div class="proj-icon"><i class="fas fa-chess"></i></div>
                 <div class="chip-row"><span class="chip">Python</span><span class="chip">Minimax</span></div>
                 <div class="proj-title">Algorithmic Game AI</div>
-                <div class="proj-desc">A Tic-Tac-Toe agent that plays optimally at all times using Minimax game tree search — evaluating every possible outcome before choosing a move.</div>
+                <div class="proj-desc">A Tic-Tac-Toe agent that plays optimally at all times using Minimax game tree search — evaluating every possible outcome.</div>
                 <div class="proj-links"><a href="#" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
@@ -612,29 +678,43 @@
                 <div class="proj-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="chip-row"><span class="chip">C</span><span class="chip">Algorithms</span></div>
                 <div class="proj-title">Real-Time Sorting Visualizer</div>
-                <div class="proj-desc">Interactive visualization of 6 sorting algorithms (quicksort, mergesort, heapsort, bubblesort, insertion, selection) with live comparison counts, swap counts, and runtime.</div>
+                <div class="proj-desc">Interactive visualization of 6 sorting algorithms with live comparison counts, swap counts, and runtime complexities.</div>
                 <div class="proj-links"><a href="#" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
         </div>
     </section>
 
-    <!-- EDUCATION -->
-    <section class="section-wrap" id="education">
-        <div class="section-label">Education & Certifications</div>
+    <!-- EDUCATION & CERTS -->
+    <section class="edu-section" id="education">
+        
+        <!-- Background Certificate Effect -->
+        <div class="cert-collage">
+            <img src="images/cert-ml.png" class="cert-img" alt="">
+            <img src="images/cert-mate-egypt.png" class="cert-img" alt="">
+            <img src="images/cert-edge-ai.png" class="cert-img" alt="">
+        </div>
+        <div class="cert-overlay"></div>
+
+        <div class="section-label" style="border: none;">Education & Certifications</div>
+        
         <div class="edu-grid">
             <div class="edu-card reveal">
                 <h3>B.Sc. Computer Engineering</h3>
-                <div class="sub">Arab Academy for Science, Technology & Maritime Transport (AASTMT)</div>
+                <div class="sub">Arab Academy for Science, Technology & Maritime Transport</div>
                 <p>Alexandria, Egypt · Expected May 2028 · GPA 3.45/4.0</p>
-                <p style="margin-top:12px;">Relevant coursework: Data Structures & Algorithms, OOP, Digital Logic Design, Electronics, Electrical Circuits, DSP, Linear Algebra, Differential Equations.</p>
+                <p style="margin-top:16px;">Relevant coursework: Data Structures & Algorithms, OOP, Digital Logic Design, Electronics, Electrical Circuits, DSP, Linear Algebra.</p>
             </div>
+            
             <div class="edu-card reveal delay-1">
-                <h3>Courses & Certificates</h3>
-                <div class="sub">Online Learning</div>
-                <p>CS50x, CS50Python, and CS50SQL — Harvard University</p>
-                <p style="margin-top:10px;">Supervised Learning, Regression and Classification — Andrew Ng / DeepLearning.AI</p>
-                <p style="margin-top:10px;">Advanced Learning Algorithms — Andrew Ng (Ongoing)</p>
+                <h3>Professional Certifications</h3>
+                <div class="sub">Continuous Learning</div>
+                <ul style="color: var(--muted); padding-left: 16px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>Stanford / DeepLearning.AI</strong> — Supervised Machine Learning</li>
+                    <li><strong>Edge Impulse</strong> — Edge AI Fundamentals</li>
+                    <li><strong>Harvard University</strong> — CS50x, CS50Python, CS50SQL</li>
+                    <li><strong>DeepLearning.AI</strong> — Advanced Learning Algorithms (Ongoing)</li>
+                </ul>
             </div>
         </div>
     </section>
