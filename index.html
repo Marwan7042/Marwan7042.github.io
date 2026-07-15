@@ -392,25 +392,7 @@
             margin-top: 0;
         }
         
-        .card-stack::before {
-            content: '👆 Click to flip';
-            position: absolute;
-            top: -25px;
-            right: 10px;
-            font-size: 0.8rem;
-            color: var(--cyan);
-            font-weight: 600;
-            z-index: 10;
-            opacity: 0.8;
-            pointer-events: none;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
+
         .stacked-card {
             position: absolute;
             width: 90%;
