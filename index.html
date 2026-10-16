@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marwan Mahmoud — Computer Vision & Embedded AI</title>
-    <meta name="description" content="Computer Engineering student at AASTMT. GPU-accelerated computer vision, embedded AI, and real-time autonomy.">
+    <title>Marwan Mahmoud</title>
+    <meta name="description" content="Computer engineering student at AASTMT. I work on computer vision, embedded AI, and GPU code.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -70,7 +70,7 @@
             background-clip: text;
         }
 
-        /* ── NAV ── */
+        /* NAV */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -89,7 +89,7 @@
         .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.8rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s; }
         .nav-links a:hover { color: var(--white); }
 
-        /* ── HERO ── */
+        /* HERO */
         .hero {
             min-height: 100vh;
             display: grid;
@@ -179,7 +179,6 @@
         }
         .btn-accent:hover { background: rgba(255,255,255,0.1); border-color: var(--cyan); transform: translateY(-2px); color: var(--cyan); }
 
-        /* Photo collage */
         .hero-visual {
             z-index: 1;
             position: relative;
@@ -231,7 +230,7 @@
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
-        /* ── STATS ── */
+        /* STATS */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -247,7 +246,7 @@
         .stat-number { font-family: 'Outfit', sans-serif; font-size: 2.6rem; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 7px; }
         .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.5px; }
 
-        /* ── SECTION WRAPPER ── */
+        /* SECTION */
         .section-wrap {
             padding: 120px 80px;
             border-bottom: 1px solid var(--card-border);
@@ -268,7 +267,7 @@
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
 
-        /* ── EXPERIENCE ── */
+        /* EXPERIENCE */
         .exp-grid { display: flex; flex-direction: column; gap: 0; position: relative; z-index: 10; }
 
         .exp-item {
@@ -337,7 +336,7 @@
         }
         .exp-body ul li strong { color: var(--white); font-weight: 600; }
 
-        /* ── SKILLS ── */
+        /* SKILLS */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -391,7 +390,7 @@
             background: rgba(0,212,255,0.06);
         }
 
-        /* ── STACKED CARDS EFFECT ── */
+        /* STACKED CARDS */
         .card-stack {
             position: relative;
             width: 100%;
@@ -455,7 +454,7 @@
             z-index: 5;
         }
 
-        /* ── PROJECTS ── */
+        /* PROJECTS */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -523,7 +522,7 @@
         }
         .proj-card.featured .proj-title { font-size: 1.3rem; }
 
-        /* ── EDUCATION & CERTS ── */
+        /* EDUCATION */
         .edu-section {
             position: relative;
             overflow: hidden;
@@ -618,7 +617,7 @@
             margin-bottom: 2px;
         }
 
-        /* ── FOOTER ── */
+        /* FOOTER */
         .footer-cta {
             padding: 140px 80px;
             text-align: center;
@@ -636,16 +635,14 @@
         .footer-cta p { font-size: 1rem; color: var(--muted); margin-bottom: 44px; max-width: 500px; margin-left: auto; margin-right: auto; }
         .social-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
 
-        /* ── Reveal ── */
+        /* Reveal */
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.85s ease, transform 0.85s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
 
-        /* ────────────────────────────────────────────
-           RESPONSIVE — Tablet: 1024px
-        ──────────────────────────────────────────── */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             nav { padding: 18px 40px; }
             .hero { padding: 0 40px; gap: 40px; }
@@ -656,9 +653,6 @@
             .exp-item.has-visual { grid-template-columns: 45% 55%; }
         }
 
-        /* ────────────────────────────────────────────
-           RESPONSIVE — Small Tablet / Large Mobile: 768px
-        ──────────────────────────────────────────── */
         @media (max-width: 768px) {
             nav { padding: 16px 24px; }
             .nav-links { display: none; }
@@ -702,9 +696,6 @@
             .bg-shade-effect { width: 100%; opacity: 0.07; }
         }
 
-        /* ────────────────────────────────────────────
-           RESPONSIVE — Mobile: 480px
-        ──────────────────────────────────────────── */
         @media (max-width: 480px) {
             nav { padding: 14px 18px; }
 
@@ -773,23 +764,23 @@
         <div class="orb orb-2"></div>
 
         <div class="hero-text">
-            <div class="hero-eyebrow reveal">Computer Vision · Embedded AI · GPU Computing</div>
-            <h1 class="hero-title reveal delay-1">I build things that<br>see, think, and<br><span class="g-text">solve.</span></h1>
+            <div class="hero-eyebrow reveal">Computer Vision · Embedded AI · CUDA</div>
+            <h1 class="hero-title reveal delay-1">Real-time vision<br>on hardware that<br><span class="g-text">shouldn't handle it.</span></h1>
             <p class="hero-bio reveal delay-2">
-                Computer Engineering student at AASTMT building real-time perception and autonomy on constrained hardware. From underwater SLAM pipelines to a CUDA deep learning framework written from scratch.
+                I'm a computer engineering student at AASTMT in Alexandria. Most of what I do is getting computer vision to run on hardware that isn't really supposed to handle it: Raspberry Pis, Jetson boards, a couple of Arduinos. I lead CV for our underwater ROV team, and when I have a spare evening I write CUDA kernels for a deep learning framework I'm building from scratch.
             </p>
             <div class="hero-ctas reveal delay-3">
                 <a href="#projects" class="btn btn-primary">See My Work</a>
-                <a href="Marwan_Mahmoud_Mohammed_Resume.pdf" class="btn btn-accent" download><i class="fas fa-file-download"></i> Download Resume</a>
+                <a href="Marwan_Mahmoud_Mohammed_Resume.pdf" class="btn btn-accent" download><i class="fas fa-file-download"></i> Resume</a>
                 <a href="https://github.com/Marwan7042" target="_blank" class="btn btn-ghost"><i class="fab fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/marwan7042/" target="_blank" class="btn btn-ghost"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
 
         <div class="hero-visual reveal delay-2">
-            <div class="floating-badge">🥉 MATE ROV World Championship</div>
+            <div class="floating-badge">🥉 MATE ROV Worlds</div>
             <div class="photo-main">
-                <img src="images/triton-2.jpg" alt="Triton ROV team — 40 members — after winning the Regional Championship">
+                <img src="images/triton-2.jpg" alt="Triton ROV team after winning the Regional Championship">
             </div>
             <div class="photo-secondary">
                 <img src="images/triton-3.jpg" alt="The ROV hardware internals">
@@ -801,21 +792,21 @@
     <div class="stats-bar">
         <div class="stat-item reveal">
             <div class="stat-number g-text">1st</div>
-            <div class="stat-label">Place — MATE ROV Egypt (Regional)</div>
+            <div class="stat-label">MATE ROV Egypt, Regional</div>
         </div>
         <div class="stat-item reveal delay-1">
             <div class="stat-number g-text">3rd</div>
-            <div class="stat-label">Place — MATE ROV World (Canada)</div>
+            <div class="stat-label">MATE ROV Worlds, Canada</div>
         </div>
         <div class="stat-item reveal delay-2">
             <div class="stat-number g-text">40</div>
-            <div class="stat-label">Engineers on the Triton ROV Team</div>
+            <div class="stat-label">People on the Triton team</div>
         </div>
     </div>
 
     <!-- EXPERIENCE -->
     <section class="section-wrap" id="experience">
-        <div class="section-label">Work Experience</div>
+        <div class="section-label">Experience</div>
 
         <div class="exp-grid">
 
@@ -823,8 +814,8 @@
             <div class="exp-item has-visual reveal">
                 <div class="exp-text-col">
                     <div class="exp-meta" style="position: static;">
-                        <div class="exp-role">Computer Vision & Autonomy Engineer</div>
-                        <div class="exp-org">Triton ROVs · MATE ROV Competition</div>
+                        <div class="exp-role">Computer Vision & Autonomy Lead</div>
+                        <div class="exp-org">Triton ROVs</div>
                         <div class="exp-period">Sep 2025 — Present</div>
                         <div class="exp-stack">
                             <span class="tag-sm">Python</span>
@@ -834,18 +825,18 @@
                             <span class="tag-sm">DepthAI</span>
                             <span class="tag-sm">OpenCV</span>
                             <span class="tag-sm">15-DOF ESKF</span>
-                            <span class="tag-sm">NVIDIA Jetson</span>
+                            <span class="tag-sm">Jetson</span>
                         </div>
                     </div>
 
                     <div class="exp-body">
                         <ul>
-                            <li>CV and autonomy active member on a 40-member team that took <strong>1st place regionally</strong> at the MATE ROV competition and <strong>3rd place at the World Championship</strong>.</li>
-                            <li>Designed <strong>OS-VIO</strong>, a visual-inertial SLAM pipeline for underwater navigation. It fuses stereo vision with a 15-DOF error-state Kalman filter and uses manifold pre-integration for real-time state estimation.</li>
-                            <li>Moved feature tracking and RGB/depth sync onto the OAK-D S2's VPU with DepthAI, keeping five camera streams running at <strong>20 FPS</strong> on a Raspberry Pi 4.</li>
-                            <li>Currently migrating the perception stack to an <strong>NVIDIA Jetson</strong> platform — evaluating JetPack, CUDA, and TensorRT for on-board inference.</li>
-                            <li>Rewrote the visual Jacobians with Numba JIT (<strong>5–10× faster on ARM</strong>) and switched the Kalman solver to Cholesky (<strong>2× faster</strong> than a general inverse), with ZUPT and thread pinning to cut scheduler jitter.</li>
-                            <li>Built a stereo measurement tool with motion-gated depth buffering, turbidity-adaptive filtering, and refraction correction — pool dimensions within <strong>≤ 5 cm error</strong>.</li>
+                            <li>Lead CV and autonomy for a 40-person team. We took <strong>1st place at MATE ROV Egypt</strong> and <strong>3rd at Worlds in Canada</strong>.</li>
+                            <li>Wrote <strong>OS-VIO</strong>, the visual-inertial SLAM pipeline the ROV uses to know where it is. 15-DOF error-state Kalman filter, manifold pre-integration, the whole thing.</li>
+                            <li>Moved feature tracking and camera sync onto the OAK-D S2's VPU so the Raspberry Pi could keep up. Five camera streams at <strong>20 FPS on a Pi 4</strong>.</li>
+                            <li>Porting the perception stack to an <strong>NVIDIA Jetson</strong> right now. TensorRT for inference, CUDA where it matters.</li>
+                            <li>Rewrote the Jacobian math with Numba JIT (<strong>5-10× faster on ARM</strong>) and swapped the Kalman solver to Cholesky (<strong>2× faster</strong> than a general inverse). Added ZUPT and thread pinning to kill scheduler jitter.</li>
+                            <li>Built a stereo measurement tool that handles turbid water and refraction. Pool dimensions came out within <strong>5 cm</strong>.</li>
                         </ul>
                     </div>
                 </div>
@@ -853,10 +844,10 @@
                 <div class="exp-visual-col">
 
                     <div class="card-stack" id="tritonStack">
-                        <div class="stacked-card"><img src="images/triton-2.jpg" alt="The full Triton ROV team"></div>
-                        <div class="stacked-card"><img src="images/triton-1.jpg" alt="Receiving the official recognition certificate"></div>
-                        <div class="stacked-card"><img src="images/triton-3.jpg" alt="The ROV hardware open for inspection"></div>
-                        <div class="stacked-card"><img src="images/triton-4.jpg" alt="Official MATE ROV World Championship certificate"></div>
+                        <div class="stacked-card"><img src="images/triton-2.jpg" alt="The Triton ROV team"></div>
+                        <div class="stacked-card"><img src="images/triton-1.jpg" alt="Receiving the recognition certificate"></div>
+                        <div class="stacked-card"><img src="images/triton-3.jpg" alt="The ROV hardware"></div>
+                        <div class="stacked-card"><img src="images/triton-4.jpg" alt="MATE ROV Worlds certificate"></div>
                     </div>
 
                     <script>
@@ -892,17 +883,17 @@
             <div class="exp-item reveal">
                 <div class="exp-meta">
                     <div class="exp-role">Data Analysis Intern</div>
-                    <div class="exp-org">Amreya Petroleum Refining Company (APRC)</div>
+                    <div class="exp-org">Amreya Petroleum Refining Company</div>
                     <div class="exp-period">Summer 2025</div>
                     <div class="exp-stack">
                         <span class="tag-sm">Python</span>
                         <span class="tag-sm">SQL</span>
-                        <span class="tag-sm">SCADA Analytics</span>
+                        <span class="tag-sm">SCADA</span>
                     </div>
                 </div>
 
                 <div class="exp-body">
-                    <p>Analyzed 50K+ live sensor records from SCADA systems inside an active refinery. Built anomaly detection filters that saved engineering hours, and delivered insights that directly supported process optimization decisions.</p>
+                    <p>Went through 50K+ live sensor readings from the refinery's SCADA systems looking for anomalies. Wrote some filters that caught things nobody was checking by hand, and passed the results to the process engineers.</p>
                 </div>
             </div>
 
@@ -926,7 +917,7 @@
             </div>
 
             <div class="skill-group reveal delay-1">
-                <div class="skill-group-title"><i class="fas fa-microchip"></i> GPU & Parallel Computing</div>
+                <div class="skill-group-title"><i class="fas fa-microchip"></i> GPU & Parallel</div>
                 <div class="skill-tags">
                     <span class="skill-tag">CUDA</span>
                     <span class="skill-tag">cuBLAS</span>
@@ -940,7 +931,7 @@
             </div>
 
             <div class="skill-group reveal delay-2">
-                <div class="skill-group-title"><i class="fas fa-brain"></i> Deep Learning & Computer Vision</div>
+                <div class="skill-group-title"><i class="fas fa-brain"></i> Deep Learning & Vision</div>
                 <div class="skill-tags">
                     <span class="skill-tag">PyTorch</span>
                     <span class="skill-tag">TensorFlow</span>
@@ -956,20 +947,20 @@
                 <div class="skill-group-title"><i class="fas fa-robot"></i> Embedded & Robotics</div>
                 <div class="skill-tags">
                     <span class="skill-tag">Raspberry Pi</span>
-                    <span class="skill-tag">NVIDIA Jetson</span>
+                    <span class="skill-tag">Jetson</span>
                     <span class="skill-tag">OAK-D S2</span>
                     <span class="skill-tag">Arduino GIGA R1</span>
                     <span class="skill-tag">DepthAI</span>
-                    <span class="skill-tag">IMU sensor fusion</span>
-                    <span class="skill-tag">Error-State Kalman Filter</span>
-                    <span class="skill-tag">PID control</span>
-                    <span class="skill-tag">Visual-Inertial SLAM</span>
+                    <span class="skill-tag">IMU fusion</span>
+                    <span class="skill-tag">ESKF</span>
+                    <span class="skill-tag">PID</span>
+                    <span class="skill-tag">VIO / SLAM</span>
                     <span class="skill-tag">real-time systems</span>
                 </div>
             </div>
 
             <div class="skill-group reveal">
-                <div class="skill-group-title"><i class="fas fa-tools"></i> Tools & Systems</div>
+                <div class="skill-group-title"><i class="fas fa-tools"></i> Tools</div>
                 <div class="skill-tags">
                     <span class="skill-tag">Linux</span>
                     <span class="skill-tag">Git</span>
@@ -985,25 +976,24 @@
 
     <!-- PROJECTS -->
     <section class="section-wrap" id="projects">
-        <div class="section-label">Personal Projects</div>
+        <div class="section-label">Projects</div>
 
         <div class="projects-grid">
 
-            <!-- Featured: Vecore -->
             <div class="proj-card featured reveal">
                 <div class="proj-icon"><i class="fas fa-brain"></i></div>
                 <div class="chip-row">
                     <span class="chip">C++17</span>
-                    <span class="chip">NVIDIA CUDA</span>
+                    <span class="chip">CUDA</span>
                     <span class="chip">cuBLAS</span>
                     <span class="chip">Autograd</span>
                 </div>
-                <div class="proj-title">Vecore — GPU-Accelerated Deep Learning Framework</div>
+                <div class="proj-title">Vecore: A Deep Learning Framework from Scratch</div>
                 <div class="proj-desc">
                     <ul>
-                        <li>Built a PyTorch-style framework from scratch in C++17 and CUDA with reverse-mode autodiff, N-dimensional tensors, an SGD optimizer, and a custom STL.</li>
-                        <li>Hand-written CUDA kernels (fused ReLU, SGD, cross entropy, broadcasting) with cuBLAS <b>TF32 Tensor Core</b> integration; async double-buffered training pipeline and a caching allocator that eliminates cudaMalloc latency.</li>
-                        <li>Reached <b>96.23% MNIST test accuracy</b>, surpassing an equivalent PyTorch baseline (95.61%).</li>
+                        <li>Wrote a PyTorch-style framework in C++17 and CUDA. Reverse-mode autodiff, N-dimensional tensors, SGD optimizer, and a small STL to hold it all together.</li>
+                        <li>Hand-written CUDA kernels for fused ReLU, SGD, cross entropy, and broadcasting. cuBLAS with <b>TF32 Tensor Cores</b> for the matmuls. Async double-buffered training so the GPU never waits on the host.</li>
+                        <li>Hit <b>96.23% on MNIST</b>, which is somehow above the PyTorch baseline I compared against (95.61%). Still tuning performance.</li>
                     </ul>
                 </div>
                 <div class="proj-links">
@@ -1011,7 +1001,6 @@
                 </div>
             </div>
 
-            <!-- VCLite -->
             <div class="proj-card reveal delay-1">
                 <div class="proj-icon"><i class="fas fa-satellite"></i></div>
                 <div class="chip-row">
@@ -1019,12 +1008,12 @@
                     <span class="chip">OpenMP SIMD</span>
                     <span class="chip">Docker</span>
                 </div>
-                <div class="proj-title">VCLite — Zero-Allocation Inference Engine</div>
+                <div class="proj-title">VCLite: Inference for Old Satellites</div>
                 <div class="proj-desc">
                     <ul>
-                        <li>CNN inference engine for satellites and microcontrollers that never allocates dynamically — all memory from a pre-allocated static pool.</li>
-                        <li>SIMD-accelerated Conv2d, MaxPool2d, Dense layers with Schraudolph fast-exp.</li>
-                        <li>Validated under a <b>50 MB RAM / 5% CPU</b> budget on 4K satellite imagery.</li>
+                        <li>CNN inference engine for satellites and microcontrollers. Never allocates during inference, all memory comes from one static pool decided at startup.</li>
+                        <li>Conv2d, MaxPool2d, Dense layers with SIMD. Schraudolph fast-exp for the activations to keep power down.</li>
+                        <li>Runs under a <b>50 MB RAM / 5% CPU</b> budget on 4K satellite imagery. Built for NASA Space Apps.</li>
                     </ul>
                 </div>
                 <div class="proj-links">
@@ -1032,7 +1021,6 @@
                 </div>
             </div>
 
-            <!-- OS-VIO -->
             <div class="proj-card reveal">
                 <div class="proj-icon"><i class="fas fa-eye"></i></div>
                 <div class="chip-row">
@@ -1041,12 +1029,12 @@
                     <span class="chip p">Numba</span>
                     <span class="chip p">CUDA</span>
                 </div>
-                <div class="proj-title">OS-VIO — Visual-Inertial SLAM</div>
+                <div class="proj-title">OS-VIO: Visual-Inertial SLAM</div>
                 <div class="proj-desc">
                     <ul>
-                        <li>15-DOF error-state Kalman filter with manifold pre-integration for underwater state estimation.</li>
-                        <li>Numba JIT-compiled Jacobians (<b>5–10× speedup</b> on ARM) and Cholesky-based Kalman solver.</li>
-                        <li>VPU-offloaded feature tracking via DepthAI — 20 FPS across five camera streams.</li>
+                        <li>15-DOF error-state Kalman filter for underwater state estimation. Manifold pre-integration on the IMU side.</li>
+                        <li>Numba JIT-compiled Jacobians (<b>5-10× faster</b> on ARM). Cholesky-based Kalman solve.</li>
+                        <li>Feature tracking runs on the OAK-D's VPU. 20 FPS across five camera streams.</li>
                     </ul>
                 </div>
                 <div class="proj-links">
@@ -1054,15 +1042,14 @@
                 </div>
             </div>
 
-            <!-- libvc -->
             <div class="proj-card reveal delay-1">
                 <div class="proj-icon"><i class="fas fa-cubes"></i></div>
                 <div class="chip-row"><span class="chip">C++17</span><span class="chip">Templates</span></div>
-                <div class="proj-title">libvc — Custom C++ Standard Library</div>
+                <div class="proj-title">libvc: A Small C++ STL</div>
                 <div class="proj-desc">
                     <ul>
-                        <li>Vector, matrix, hash map, circular-buffer queue, and linked lists with Rule of Five compliance and zero memory leaks.</li>
-                        <li>Flattened 1D matrix layout for cache locality; vector-backed stack; quicksort, insertion sort, binary search.</li>
+                        <li>Vector, matrix, hash map, circular-buffer queue, linked lists. Rule of Five, no leaks.</li>
+                        <li>Matrices stored flat for cache locality. Stack built on top of the vector. Quicksort, insertion sort, binary search.</li>
                     </ul>
                 </div>
                 <div class="proj-links">
@@ -1070,7 +1057,6 @@
                 </div>
             </div>
 
-            <!-- Stereo Measure Tool -->
             <div class="proj-card reveal delay-2">
                 <div class="proj-icon"><i class="fas fa-ruler-combined"></i></div>
                 <div class="chip-row">
@@ -1081,8 +1067,8 @@
                 <div class="proj-title">Underwater Stereo Measurement</div>
                 <div class="proj-desc">
                     <ul>
-                        <li>Motion-gated depth buffering, turbidity-adaptive percentile filtering, and refraction correction.</li>
-                        <li>Pool dimensions reconstructed with <b>≤ 5 cm error</b> from a browser-based operator console on Raspberry Pi 4.</li>
+                        <li>Motion-gated depth buffering, percentile filtering that adapts to water turbidity, refraction correction.</li>
+                        <li>Pool dimensions came out within <b>5 cm</b>. Operated from a browser on the Pi 4.</li>
                     </ul>
                 </div>
                 <div class="proj-links">
@@ -1090,19 +1076,18 @@
                 </div>
             </div>
 
-            <!-- Sorting Visualizer (older) -->
             <div class="proj-card reveal delay-3">
                 <div class="proj-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="chip-row"><span class="chip">C</span><span class="chip">Algorithms</span></div>
-                <div class="proj-title">Real-Time Sorting Visualizer</div>
-                <div class="proj-desc">Interactive visualization of 6 sorting algorithms with live comparison counts, swap counts, and runtime complexities.</div>
+                <div class="proj-title">Sorting Visualizer</div>
+                <div class="proj-desc">Six sorting algorithms, live comparison and swap counts, runtime complexities shown on screen. Made this in first year to finally get quicksort into my head.</div>
                 <div class="proj-links"><a href="https://github.com/Marwan7042/sortingVisuals" target="_blank" class="proj-link"><i class="fab fa-github"></i> Source</a></div>
             </div>
 
         </div>
     </section>
 
-    <!-- EDUCATION & CERTS -->
+    <!-- EDUCATION -->
     <section class="edu-section" id="education">
 
         <div class="cert-collage">
@@ -1120,18 +1105,18 @@
                 <h3>B.Sc. Computer Engineering</h3>
                 <div class="sub">Arab Academy for Science, Technology & Maritime Transport</div>
                 <p>Alexandria, Egypt · Expected May 2028 · GPA 3.4 / 4.0</p>
-                <p style="margin-top:16px;">Relevant coursework: Computer Architecture, Systems Programming, Data Structures & Algorithms, DSP, Object-Oriented Programming, Embedded Systems, Data Acquisition Systems, Computer Networks.</p>
+                <p style="margin-top:16px;">Coursework so far: Computer Architecture, Systems Programming, Data Structures & Algorithms, DSP, OOP, Embedded Systems, Data Acquisition, Computer Networks.</p>
             </div>
 
             <div class="edu-card reveal delay-1">
-                <h3>Professional Certifications</h3>
-                <div class="sub">Continuous Learning</div>
+                <h3>Certifications</h3>
+                <div class="sub">Things I did outside class</div>
                 <ul class="cert-list">
                     <li>
                         <i class="fas fa-award"></i>
                         <div>
                             <strong>Supervised Machine Learning</strong>
-                            Stanford University / DeepLearning.AI
+                            Stanford / DeepLearning.AI
                         </div>
                     </li>
                     <li>
@@ -1145,14 +1130,14 @@
                         <i class="fas fa-award"></i>
                         <div>
                             <strong>CS50x, CS50Python, CS50SQL</strong>
-                            Harvard University
+                            Harvard
                         </div>
                     </li>
                     <li>
                         <i class="fas fa-award"></i>
                         <div>
                             <strong>Advanced Learning Algorithms</strong>
-                            DeepLearning.AI (Ongoing)
+                            DeepLearning.AI (in progress)
                         </div>
                     </li>
                 </ul>
@@ -1163,7 +1148,7 @@
     <!-- FOOTER -->
     <section class="footer-cta" id="contact">
         <h2 class="reveal">Get in touch.</h2>
-        <p class="reveal delay-1">Always happy to talk about GPU-accelerated computing, robotics, embedded AI, or interesting systems problems.</p>
+        <p class="reveal delay-1">Happy to talk about GPU work, robotics, or why your CUDA kernel is slow.</p>
         <div class="social-row reveal delay-2">
             <a href="mailto:M.Mahmoud63620@student.aast.edu" class="btn btn-primary"><i class="fas fa-envelope"></i> M.Mahmoud63620@student.aast.edu</a>
             <a href="https://github.com/Marwan7042" target="_blank" class="btn btn-ghost"><i class="fab fa-github"></i> GitHub</a>
